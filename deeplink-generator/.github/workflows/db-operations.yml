@@ -1,0 +1,21 @@
+name: Database Operations
+on:
+  workflow_dispatch:
+
+jobs:
+  db-reset-and-migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Execute DB Operations
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ec2-user
+          key: ${{ secrets.EC2_PEM }}
+          port: ${{ secrets.EC2_PORT }}
+          script: |
+            docker-compose down ondc_deep_link_db
+            docker rm -f ondc_deep_link_db
+            docker-compose up -d ondc_deep_link_db
+            npx prisma migrate deploy
+            node seeding/seed.js

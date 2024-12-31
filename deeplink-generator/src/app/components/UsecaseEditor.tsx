@@ -104,7 +104,7 @@ export const UsecaseEditor = ({ usecase }: UsecaseEditorProps) => {
 						.map((key: string) => (
 							<React.Fragment key={key}>
 								<Grid size={{ xs: 12, md: 5 }}>
-									<FieldName fieldName={key} />
+									<FieldName fieldName={key} paperSx={{width: "100%"}}/>
 								</Grid>
 								<Grid size={{ xs: 12, md: 6 }}>
 									{typeof flattenedTemplate[key] === "string" ? (

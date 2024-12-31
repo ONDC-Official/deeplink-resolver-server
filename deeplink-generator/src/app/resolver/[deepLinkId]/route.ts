@@ -6,6 +6,7 @@ export async function GET(
 	{ params }: { params: Promise<{ deepLinkId: string }> }
 ) {
 	const deepLinkId = (await params).deepLinkId;
-	const deepLink = await getUsecaseById(deepLinkId);
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
+	const {template ,...deepLink} = (await getUsecaseById(deepLinkId)) as any;
 	return NextResponse.json(deepLink);
 }

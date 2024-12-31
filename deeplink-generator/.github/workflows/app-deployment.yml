@@ -1,0 +1,29 @@
+name: App Deployment
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy-app:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy Application
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ec2-user
+          key: ${{ secrets.EC2_PEM }}
+          port: ${{ secrets.EC2_PORT }}
+          script: |
+            cd /path/to/app
+            rm -f .env
+            git pull origin master
+            echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > .env
+            echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> .env
+            echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env
+            echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" >> .env
+
+            rm -f docker-compose.yml
+            cp docker-compose.dev.yml docker-compose.yml
+            docker-compose build ondc_deep_link_app
+            docker-compose up -d ondc_deep_link_app
+            docker system prune -f
