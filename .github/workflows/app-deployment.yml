@@ -23,8 +23,6 @@ jobs:
             sudo git clone https://github.com/abhik-wil/deeplink-resolver-server.git
             cd deeplink-resolver-server/deeplink-generator
 
-            sudo rm -f .env
-            sudo rm -f docker-compose.yml
 
             # Create backend .env file
             sudo cat > .env << EOL
