@@ -14,15 +14,20 @@ jobs:
           key: ${{ secrets.EC2_PEM }}
           port: 22
           script: |
-            cd deep-link-repo/deeplink-generator
+            cd deeplink-resolver-server/deeplink-generator
+            node -v
+            npm -v
 
-            npm i --force
+            echo "STARTING Dep Installation"
+            sudo npm i --force
 
-            docker-compose down ondc_deep_link_db
-            docker rm -f ondc_deep_link_db
-            docker-compose up -d ondc_deep_link_db
+            echo "DB Teardown and Restart"
+            sudo docker compose down ondc_deep_link_db
+            sudo docker rm -f ondc_deep_link_db
+            sudo docker compose up -d ondc_deep_link_db
             
             sleep 10
 
+            npx prisma generate
             npx prisma migrate deploy
             node seeding/seed.js
