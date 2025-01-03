@@ -16,7 +16,7 @@ jobs:
           script: |
             cd deeplink-resolver-server/deeplink-generator
 
-            npm i --force
+            sudo npm i --force
 
             sudo docker compose down ondc_deep_link_db
             sudo docker rm -f ondc_deep_link_db
