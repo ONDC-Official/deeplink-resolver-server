@@ -14,12 +14,14 @@ jobs:
           key: ${{ secrets.EC2_PEM }}
           port: 22
           script: |
-            cd deep-link-repo
+            cd deeplink-resolver-server
+            
+            git pull origin master
+            cd deeplink-generator
+
             rm -f .env
             rm -f docker-compose.yml
 
-            git pull origin master
-            cd deeplink-generator
 
             echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > .env
             echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> .env
