@@ -18,6 +18,8 @@ jobs:
             [ -d "$REPO_DIR" ] && rm -rf "$REPO_DIR"
             git clone ${{ secrets.REPO_URL }} "$REPO_DIR"
             cd "$REPO_DIR"
+
+            cd deeplink-generator
             
             # Create .env file from secrets
             echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > .env

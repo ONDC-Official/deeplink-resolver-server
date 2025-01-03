@@ -6,7 +6,7 @@ jobs:
   db-reset-and-migrate:
     runs-on: ubuntu-latest
     steps:
-      - name: Execute DB Operations
+      - name: Execute Generator DB Operations
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
@@ -14,6 +14,7 @@ jobs:
           key: ${{ secrets.EC2_PEM }}
           port: ${{ secrets.EC2_PORT }}
           script: |
+            cd deep-link-repo/deeplink-generator
             docker-compose down ondc_deep_link_db
             docker rm -f ondc_deep_link_db
             docker-compose up -d ondc_deep_link_db

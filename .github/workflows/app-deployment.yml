@@ -6,7 +6,7 @@ jobs:
   deploy-app:
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy Application
+      - name: Deploy Generator App
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
@@ -14,11 +14,12 @@ jobs:
           key: ${{ secrets.EC2_PEM }}
           port: ${{ secrets.EC2_PORT }}
           script: |
-            cd "deep-link-repo"
+            cd deep-link-repo
             rm -f .env
             rm -f docker-compose.yml
 
             git pull origin master
+            cd deeplink-generator
 
             echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > .env
             echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> .env
