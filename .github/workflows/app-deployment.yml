@@ -25,7 +25,7 @@ jobs:
 
 
             echo "STARTING Deployment"
-            touch .env
+            sudo touch .env
             # Create backend .env file
             cat > .env << EOL
             DATABASE_URL=${{ secrets.DATABASE_URL }}
