@@ -33,10 +33,10 @@ const SUB_CATEGORIES = [
 		name: "Search By Category",
 	},
 	{
-		name: "Offers",
+		name: "Multiple Seller Search",
 	},
 	{
-		name: "Sample 1",
+		name: "Seller-Catalog Search",
 	},
 ];
 
