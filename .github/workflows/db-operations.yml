@@ -34,4 +34,4 @@ jobs:
             
             sleep 10
 
-            npx prisma migrate reset
+            npx prisma migrate reset --force
