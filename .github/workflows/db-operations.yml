@@ -10,9 +10,9 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
-          username: ec2-user
+          username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_PEM }}
-          port: ${{ secrets.EC2_PORT }}
+          port: 22
           script: |
             cd deep-link-repo/deeplink-generator
             docker-compose down ondc_deep_link_db
