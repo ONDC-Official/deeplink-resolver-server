@@ -14,7 +14,7 @@ jobs:
           key: ${{ secrets.EC2_PEM }}
           port: ${{ secrets.EC2_PORT }}
           script: |
-            REPO_DIR="/path/to/repo"
+            REPO_DIR="deep-link-repo"
             [ -d "$REPO_DIR" ] && rm -rf "$REPO_DIR"
             git clone ${{ secrets.REPO_URL }} "$REPO_DIR"
             cd "$REPO_DIR"
