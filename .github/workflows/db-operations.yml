@@ -15,6 +15,7 @@ jobs:
           port: 22
           script: |
             cd deeplink-resolver-server/deeplink-generator
+            nvm use --lts
             node -v
             npm -v
 
