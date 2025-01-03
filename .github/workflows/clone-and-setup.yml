@@ -16,7 +16,7 @@ jobs:
           script: |
             echo "STARTING Deployment"
             [ -d "deeplink-resolver-server" ] && rm -rf "deeplink-resolver-server"
-            sudo git clone git@github.com:abhik-wil/deeplink-resolver-server.git
+            sudo git clone https://github.com/abhik-wil/deeplink-resolver-server.git
             cd deeplink-resolver-server/deeplink-generator
             
             # Create .env file from secrets
