@@ -34,6 +34,4 @@ jobs:
             
             sleep 10
 
-            npx prisma generate
-            npx prisma migrate deploy
-            node seeding/seed.js
+            npx prisma migrate reset
