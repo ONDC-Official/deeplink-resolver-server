@@ -21,7 +21,7 @@ jobs:
             echo "STARTING Deployment"
             [ -d "deeplink-resolver-server" ] && sudo rm -rf "deeplink-resolver-server"
             sudo git clone https://github.com/abhik-wil/deeplink-resolver-server.git
-            sudo cd deeplink-resolver-server/deeplink-generator
+            cd deeplink-resolver-server/deeplink-generator
 
             sudo rm -f .env
             sudo rm -f docker-compose.yml
@@ -36,7 +36,7 @@ jobs:
 
 
             sudo cp docker-compose.dev.yml docker-compose.yml
-            sudo docker-compose up ondc_deep_link_app -d --build
+            sudo docker compose up ondc_deep_link_app -d --build
             sudo docker system prune -f
             sudo systemctl restart nginx
 
