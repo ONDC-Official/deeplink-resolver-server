@@ -19,15 +19,15 @@ jobs:
           port: 22
           script: |
             echo "STARTING Deployment"
-            [ -d "deeplink-resolver-server" ] && rm -rf "deeplink-resolver-server"
+            [ -d "deeplink-resolver-server" ] && sudo rm -rf "deeplink-resolver-server"
             sudo git clone https://github.com/abhik-wil/deeplink-resolver-server.git
-            cd deeplink-resolver-server/deeplink-generator
+            sudo cd deeplink-resolver-server/deeplink-generator
 
-            rm -f .env
-            rm -f docker-compose.yml
+            sudo rm -f .env
+            sudo rm -f docker-compose.yml
 
             # Create backend .env file
-            cat > .env << EOL
+            sudo cat > .env << EOL
             DATABASE_URL=${{ secrets.DATABASE_URL }}
             POSTGRES_USER=${{ secrets.POSTGRES_USER }}
             POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
@@ -35,7 +35,7 @@ jobs:
             EOL
 
 
-            cp docker-compose.dev.yml docker-compose.yml
+            sudo cp docker-compose.dev.yml docker-compose.yml
             sudo docker-compose up ondc_deep_link_app -d --build
             sudo docker system prune -f
             sudo systemctl restart nginx
