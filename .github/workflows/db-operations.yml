@@ -18,11 +18,12 @@ jobs:
 
             npm i --force
 
-            docker-compose down ondc_deep_link_db
-            docker rm -f ondc_deep_link_db
-            docker-compose up -d ondc_deep_link_db
+            sudo docker-compose down ondc_deep_link_db
+            sudo docker rm -f ondc_deep_link_db
+            sudo docker-compose up -d ondc_deep_link_db
             
             sleep 10
 
+            
             npx prisma migrate deploy
             node seeding/seed.js
