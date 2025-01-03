@@ -7,7 +7,7 @@ import {
 import { Paper, Typography, Grid2 as Grid, Box } from "@mui/material";
 import Link from "next/link";
 import React from "react";
-import Divider, { dividerClasses } from '@mui/material/Divider';
+import Divider from '@mui/material/Divider';
 
 const DeepLinkThankYouPage = async ({
 	params,
