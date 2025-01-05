@@ -18,12 +18,11 @@ jobs:
 
             echo "DB Teardown and Restart"
             sudo docker compose down ondc_deep_link_db
-            sudo docker rm -f ondc_deep_link_db
             sudo docker compose up -d ondc_deep_link_db
             
             sleep 10
 
-            sudo docker build -t migrations-runner -f Dockerfile.migrations .
+            sudo docker build -t migrations-runner -f Dockerfile.migration .
             sudo docker run --rm \
               --network deeplink-generator_default \
               migrations-runner
