@@ -15,17 +15,6 @@ jobs:
           port: 22
           script: |
             cd deeplink-resolver-server/deeplink-generator
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-            source ~/.bashrc
-            
-            nvm use --lts
-            node -v
-            npm -v
-
-            echo "STARTING Dep Installation"
-            sudo npm i --force
 
             echo "DB Teardown and Restart"
             sudo docker compose down ondc_deep_link_db
@@ -33,7 +22,10 @@ jobs:
             sudo docker compose up -d ondc_deep_link_db
             
             sleep 10
+            sudo docker run --rm \
+              --network ondc_deep_link \
+              -v $(pwd)/prisma:/app/prisma \
+              -v $(pwd)/seeding:/app/seeding \
+              node:23-alpine \
+              sh -c "cd /app && npm install && npx prisma generate && npx prisma migrate deploy && node seeding/seed.js"
 
-            npx prisma generate
-            npx prisma migrate deploy
-            node seeding/seed.js
