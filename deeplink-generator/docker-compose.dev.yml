@@ -7,8 +7,6 @@ services:
       - ./.env
     depends_on:
       - ondc_deep_link_db
-    networks:
-      - ondc_deep_link
 
   ondc_deep_link_db:
     image: postgres
@@ -25,9 +23,3 @@ services:
       - "5432:5432"
     env_file:
       - ./.env
-    networks:
-      - ondc_deep_link
-
-networks:
-  ondc_deep_link:
-    driver: bridge
