@@ -31,7 +31,7 @@ export async function publishUsecase({ usecase, form }: PublishUsecaseType) {
 		},
 	});
 	const octokit = new Octokit({
-		auth: process.env.GITHUB_PAT,
+		auth: process.env.GIT_PAT,
 	});
 
 	if (form.submissionOption === UsecaseStage.PUBLISHED) {
@@ -43,16 +43,16 @@ export async function publishUsecase({ usecase, form }: PublishUsecaseType) {
 
 		try {
 			await octokit.repos.getContent({
-				owner: process.env.GITHUB_OWNER || "",
-				repo: process.env.GITHUB_REPO || "",
+				owner: process.env.GIT_OWNER || "",
+				repo: process.env.GIT_REPO || "",
 				path: FOLDER_PATH,
 			});
 		} catch (error: any) {
 			if (error.status === 404) {
 				// Create the folder by creating a dummy file and then deleting it
 				await octokit.repos.createOrUpdateFileContents({
-					owner: process.env.GITHUB_OWNER || "",
-					repo: process.env.GITHUB_REPO || "",
+					owner: process.env.GIT_OWNER || "",
+					repo: process.env.GIT_REPO || "",
 					path: `${FOLDER_PATH}/.gitkeep`,
 					message: "Create hello folder",
 					content: Buffer.from("").toString("base64"),
@@ -62,8 +62,8 @@ export async function publishUsecase({ usecase, form }: PublishUsecaseType) {
 
 		// Create the new JSON file
 		await octokit.repos.createOrUpdateFileContents({
-			owner: process.env.GITHUB_OWNER || "",
-			repo: process.env.GITHUB_REPO || "",
+			owner: process.env.GIT_OWNER || "",
+			repo: process.env.GIT_REPO || "",
 			path: filePath,
 			message: `Add user submission ${updatedUsecase.id}`,
 			content,
@@ -81,8 +81,8 @@ export async function publishUsecase({ usecase, form }: PublishUsecaseType) {
 	const qrCodeBuffer = Buffer.from(qrCodeBase64.split(",")[1], "base64");
 
 	await octokit.repos.createOrUpdateFileContents({
-		owner: process.env.GITHUB_OWNER || "",
-		repo: process.env.GITHUB_REPO || "",
+		owner: process.env.GIT_OWNER || "",
+		repo: process.env.GIT_REPO || "",
 		path: filePath,
 		message: `Update QR code for ${updatedUsecase.id}`,
 		content: qrCodeBuffer.toString("base64"),
