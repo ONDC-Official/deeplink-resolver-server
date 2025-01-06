@@ -14,6 +14,7 @@ import Form from "next/form";
 import {
 	FillerTypeObject,
 	flattenTemplate,
+	formDataToFormItemArray,
 	inputTypeMapper,
 	NamedEnum,
 } from "@/app/utils";
@@ -39,7 +40,8 @@ const GenerateDeepLinkPage = async ({
 			throw new Error("Form data is required");
 		}
 		console.log("CREATING DEEP LINK");
-		const deepLink = await createDeepLink(templateId, form);
+		const value = formDataToFormItemArray(form)
+		const deepLink = await createDeepLink({templateId, value});
 		console.log("Redirecting");
 		redirect(`/deep-link/usecases/publish/${deepLink.id}`);
 	};

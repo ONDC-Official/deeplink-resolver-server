@@ -1,10 +1,15 @@
-import { getUsecaseById, publishUsecase } from "@/app/actions";
+import {
+	getUsecaseById,
+	publishUsecase,
+	PublishUsecaseFormType,
+} from "@/app/actions";
 import {
 	CustomContainedButtom,
 	CustomHeading,
 	FieldName,
 	UsecaseEditor,
 } from "@/app/components";
+import { formDataToEntry } from "@/app/utils";
 import {
 	Box,
 	Divider,
@@ -14,8 +19,7 @@ import {
 	Select,
 	TextField,
 	Typography,
-	Stack
-
+	Stack,
 } from "@mui/material";
 import { UsecaseStage } from "@prisma/client";
 import Form from "next/form";
@@ -29,12 +33,10 @@ const PublishDeepLinkPage = async ({
 }) => {
 	const deepLinkId = (await params).deepLinkId;
 	const usecase = await getUsecaseById(deepLinkId);
-	const handleFormSubmit = async (form: FormData) => {
+	const handleFormSubmit = async (formData: FormData) => {
 		"use server";
-		if (!form) {
-			throw new Error("Form data is required");
-		}
-		const publishedUsecase = await publishUsecase(usecase!, form);
+		const form = formDataToEntry<PublishUsecaseFormType>(formData);
+		const publishedUsecase = await publishUsecase({ usecase: usecase!, form });
 		redirect(`/deep-link/usecases/thank-you/${publishedUsecase.id}`);
 	};
 	return (
@@ -64,9 +66,9 @@ const PublishDeepLinkPage = async ({
 								alignItems="center"
 								justifyContent="flex-start"
 							>
-								<FieldName fieldName="Creater's Name"/>
+								<FieldName fieldName="Creater's Name" />
 								<Typography variant="h5">&nbsp; &nbsp;</Typography>
-								<TextField sx={{ ml: 1 }} name="Creater's Name" fullWidth />
+								<TextField sx={{ ml: 1 }} name="creatorName" fullWidth />
 							</Stack>
 
 							<Stack
@@ -75,9 +77,9 @@ const PublishDeepLinkPage = async ({
 								alignItems="center"
 								justifyContent="flex-start"
 							>
-								<FieldName fieldName="Deeplink Name"/>
+								<FieldName fieldName="Deeplink Name" />
 								<Typography variant="h5">&nbsp; &nbsp;</Typography>
-								<TextField sx={{ ml: 1 }} name="Deeplink Name" fullWidth />
+								<TextField sx={{ ml: 1 }} name="name" fullWidth />
 							</Stack>
 
 							<Stack
@@ -86,9 +88,9 @@ const PublishDeepLinkPage = async ({
 								alignItems="center"
 								justifyContent="flex-start"
 							>
-								<FieldName fieldName="Description"/>
+								<FieldName fieldName="Description" />
 								<Typography variant="h5">&nbsp; &nbsp;</Typography>
-								<TextField sx={{ ml: 1 }} name="Description" fullWidth />
+								<TextField sx={{ ml: 1 }} name="description" fullWidth />
 							</Stack>
 
 							<Divider />
@@ -115,11 +117,10 @@ const PublishDeepLinkPage = async ({
 							</Stack>
 							<Divider />
 						</Grid>
-						<Grid size={{ xs: 12}}>
+						<Grid size={{ xs: 12 }}>
 							<UsecaseEditor usecase={usecase!} />
 							{/* <Typography>{JSON.stringify(usecase?.value)}</Typography> */}
 						</Grid>
-						
 					</Grid>
 				</Paper>
 				<Box

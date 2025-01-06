@@ -81,7 +81,7 @@ const DeepLinkThankYouPage = async ({
 					</Box>
 				</Grid>
 				<Grid size={{ xs: 12, md: 5 }}>
-					<DownloadQr usecaseId={deepLinkId} name={usecase.creatorName!} />
+					<DownloadQr usecaseId={deepLinkId} name={usecase.name!} />
 				</Grid>
 				<Divider orientation="vertical" variant="middle" flexItem />
 				<Grid size={{ xs: 12, md: 6 }}>
