@@ -7,9 +7,9 @@
 				"type": "string",
 				"filler": "user",
 				"enum": [
-					{ "name": "Grocery", "value": "std:ONDC:RET10" },
-					{ "name": "Fashion", "value": "std:ONDC:RET12" },
-					{ "name": "BPC", "value": "std:ONDC:RET13" }
+					{ "name": "Grocery", "value": "ONDC:RET10" },
+					{ "name": "Fashion", "value": "ONDC:RET12" },
+					{ "name": "BPC", "value": "ONDC:RET13" }
 				]
 			},
 			"action": "search",
@@ -24,17 +24,7 @@
 				"filler": "user",
 				"type": "string",
 				"enum": [
-					{ "name": "CENTRAL", "value": "std:011" },
 					{ "name": "NEW DELHI", "value": "std:011" },
-					{ "name": "SOUTH", "value": "std:011" },
-					{ "name": "South East", "value": "std:011" },
-					{ "name": "NORTH", "value": "std:011" },
-					{ "name": "NORTH WEST", "value": "std:011" },
-					{ "name": "WEST", "value": "std:011" },
-					{ "name": "EAST", "value": "std:011" },
-					{ "name": "SHAHDARA", "value": "std:011" },
-					{ "name": "SOUTH WEST", "value": "std:011" },
-					{ "name": "NORTH EAST", "value": "std:011" },
 					{ "name": "FARIDABAD", "value": "std:0129" },
 					{ "name": "PALWAL", "value": "std:01275" },
 					{ "name": "GURUGRAM", "value": "std:0124" },

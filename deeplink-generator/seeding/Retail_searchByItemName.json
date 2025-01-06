@@ -1,5 +1,5 @@
 {
-	"name": "SearchByItem Template",
+	"name": "SearchByItemName Template",
 	"description": "This template searches by item only",
 	"value": {
 		"context": {
@@ -63,5 +63,5 @@
 	},
 	"templateStage": "SUBMITTED",
 	"category": "Retail",
-	"subCategory": "Search By Item"
+	"subCategory": "Search By Item Name"
 }
