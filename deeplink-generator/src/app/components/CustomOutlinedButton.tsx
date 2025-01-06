@@ -23,7 +23,7 @@ export const CustomOutlinedButton = ({
 					bgcolor: "transparent",
 					width: "100%",
 					"&:hover": {
-						borderWidth: 3.5,
+						transform: 'scale(1.04)',
 						bgcolor: colors.grey[100],
 						borderColor: "primary.dark",
 						color: colors.grey[900],

@@ -5,7 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "linux-musl", "windows"]
 }
 
@@ -61,13 +61,16 @@ model Usecase {
 }
 
 model UsecaseCategory {
-  id       String     @id @default(uuid())
-  name     String     @unique
-  Template Template[]
+  id                 String               @id @default(uuid())
+  name               String               @unique
+  Template           Template[]
+  UsecaseSubcategory UsecaseSubcategory[]
 }
 
 model UsecaseSubcategory {
-  id       String     @id @default(uuid())
-  name     String     @unique
-  Template Template[]
+  id                String          @id @default(uuid())
+  name              String          @unique
+  category          UsecaseCategory @relation(fields: [usecaseCategoryId], references: [id])
+  Template          Template[]
+  usecaseCategoryId String
 }
