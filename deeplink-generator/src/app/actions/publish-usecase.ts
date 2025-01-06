@@ -3,6 +3,8 @@
 import { Usecase, UsecaseStage } from "@prisma/client";
 import { db } from "../../../db";
 import { Octokit } from "@octokit/rest";
+import QRCode from "qrcode";
+
 const FOLDER_PATH = "usecases";
 
 export async function publishUsecase(usecase: Usecase, form: FormData) {
@@ -15,18 +17,18 @@ export async function publishUsecase(usecase: Usecase, form: FormData) {
 			name: form.get("name") as string,
 		},
 	});
+	const octokit = new Octokit({
+		auth: process.env.GITHUB_PAT,
+	});
+
 	if (
 		(form.get("submissionOption") as UsecaseStage) === UsecaseStage.PUBLISHED
 	) {
 		const fileName = `${updatedUsecase.id}.json`;
-		const filePath = `${FOLDER_PATH}/${fileName}`;
+		const filePath = `${FOLDER_PATH}/json/${fileName}`;
 		const content = Buffer.from(
 			JSON.stringify(updatedUsecase, null, 2)
 		).toString("base64");
-
-		const octokit = new Octokit({
-			auth: process.env.GITHUB_PAT,
-		});
 
 		try {
 			await octokit.repos.getContent({
@@ -56,6 +58,25 @@ export async function publishUsecase(usecase: Usecase, form: FormData) {
 			content,
 		});
 	}
+
+	const fileName = `${updatedUsecase.id}.png`;
+	const filePath = `${FOLDER_PATH}/qr/${fileName}`;
+	
+	const qrCodeBase64 = await QRCode.toDataURL(
+		JSON.stringify(updatedUsecase.value, null, 2)
+	);
+
+	// Convert base64 to buffer (remove data:image/png;base64, prefix)
+	const qrCodeBuffer = Buffer.from(qrCodeBase64.split(",")[1], "base64");
+
+
+	await octokit.repos.createOrUpdateFileContents({
+		owner: process.env.GITHUB_OWNER || "",
+		repo: process.env.GITHUB_REPO || "",
+		path: filePath,
+		message: `Update QR code for ${updatedUsecase.id}`,
+		content: qrCodeBuffer.toString('base64')
+	});
 
 	return updatedUsecase;
 }

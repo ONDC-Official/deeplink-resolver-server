@@ -1,15 +1,35 @@
 "use client";
 import { DownloadTwoTone } from "@mui/icons-material";
 import { Box, IconButton, Typography } from "@mui/material";
-import React, { useState } from "react";
-import QrDialog from "./QrDialog";
+import React from "react";
 
 type DownloadQrProps = {
-	link?: string;
+	usecaseId: string;
+	name: string
 };
 
-export const DownloadQr = ({ link }: DownloadQrProps) => {
-	const [openQrDialog, setOpenQrDialog] = useState(false);
+export const DownloadQr = ({ usecaseId, name}: DownloadQrProps) => {
+	const handleDownloadPDF = async () => {
+    try {
+      const response = await fetch(`/api/usecase/pdf/${usecaseId}`);
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${name}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        a.remove();
+      } else {
+        alert('Error generating PDF');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Error generating PDF');
+    }
+  };
 	return (
 		<Box
 			sx={{
@@ -30,16 +50,10 @@ export const DownloadQr = ({ link }: DownloadQrProps) => {
 					bgcolor: "primary.light",
 					"&:hover": { bgcolor: "primary.dark" },
 				}}
-				onClick={() => setOpenQrDialog(true)}
+				onClick={handleDownloadPDF}
 			>
 				<DownloadTwoTone />
 			</IconButton>
-			<QrDialog
-				link={link || ""}
-				open={openQrDialog}
-				onClose={() => setOpenQrDialog(false)}
-				providerName="Deep Link QR"
-			/>
 		</Box>
 	);
 };

@@ -27,6 +27,7 @@
 		"jspdf": "^2.5.2",
 		"next": "15.0.3",
 		"pdf-lib": "^1.17.1",
+		"qrcode": "^1.5.4",
 		"react": "19.0.0",
 		"react-dom": "19.0.0",
 		"react-json-view-lite": "^2.0.1",
@@ -35,6 +36,7 @@
 	},
 	"devDependencies": {
 		"@types/node": "^20.17.9",
+		"@types/qrcode": "^1.5.5",
 		"@types/react": "^18",
 		"@types/react-dom": "^18",
 		"eslint": "^8",

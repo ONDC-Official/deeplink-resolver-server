@@ -1,4 +1,4 @@
-import { Box, Grid, Typography, IconButton } from "@mui/material";
+import { Box, Grid2 as Grid, Typography, IconButton } from "@mui/material";
 import React from "react";
 import EmailIcon from "@mui/icons-material/Email";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
@@ -18,36 +18,42 @@ export const SocialsList = () => {
 				flexDirection: "column",
 			}}
 		>
-			<Typography variant="h6" color="primary.light" align="center" marginBottom={"10px"} gutterBottom>
+			<Typography
+				variant="h6"
+				color="primary.light"
+				align="center"
+				marginBottom={"10px"}
+				gutterBottom
+			>
 				Share directly on Socials
 			</Typography>
 			<Grid container spacing={2} justifyContent="center">
-				<Grid item>
+				<Grid size={{xs: 6, md:3, lg:2}}>
 					<IconButton color="primary">
 						<EmailIcon fontSize="large" />
 					</IconButton>
 				</Grid>
-				<Grid item>
+				<Grid size={{xs: 6, md:3, lg:2}}>
 					<IconButton color="success">
 						<WhatsAppIcon fontSize="large" />
 					</IconButton>
 				</Grid>
-				<Grid item>
+				<Grid size={{xs: 6, md:3, lg:2}}>
 					<IconButton color="secondary">
 						<GroupsIcon fontSize="large" />
 					</IconButton>
 				</Grid>
-				<Grid item>
+				<Grid size={{xs: 6, md:3, lg:2}}>
 					<IconButton sx={{ color: "#E60023" }}>
 						<PinterestIcon fontSize="large" />
 					</IconButton>
 				</Grid>
-				<Grid item>
+				<Grid size={{xs: 6, md:3, lg:2}}>
 					<IconButton sx={{ color: "#E1306C" }}>
 						<InstagramIcon fontSize="large" />
 					</IconButton>
 				</Grid>
-				<Grid item>
+				<Grid size={{xs: 6, md:3, lg:2}}>
 					<IconButton sx={{ color: "#1877F2" }}>
 						<FacebookIcon fontSize="large" />
 					</IconButton>

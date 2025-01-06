@@ -4,41 +4,6 @@ import path from "path";
 
 const prisma = new PrismaClient();
 
-const CATEGORIES = [
-	{
-		name: "Retail",
-		subcategories: [
-			{
-				name: "Search By City",
-			},
-			{
-				name: "Search By Item",
-			},
-			{
-				name: "Search By Category",
-			},
-			{
-				name: "Multiple Seller Search",
-			},
-			{
-				name: "Seller-Catalog Search",
-			},
-		],
-	},
-	{
-		name: "Logistics",
-	},
-	{
-		name: "Services",
-	},
-	{
-		name: "Subscription",
-	},
-	{
-		name: "IGM",
-	},
-];
-
 async function readJsonFiles() {
 	const currentDir = path.join(process.cwd(), "seeding");
 	console.log("CWD", currentDir);
@@ -56,28 +21,36 @@ async function readJsonFiles() {
 }
 
 async function main() {
-	CATEGORIES.forEach(async (category) => {
-		const c = await prisma.usecaseCategory.create({
-			data: {
-				name: category.name,
-			},
-		});
-		console.log("Seeded Categories ", c);
-
-		if (category.subcategories) {
-			const sc = await prisma.usecaseSubcategory.createMany({
-				data: category.subcategories.map((subcategory) => ({
-					name: subcategory.name,
-					usecaseCategoryId: c.id,
-				})),
-			});
-			console.log("Seeded Sub Categories ", sc.count);
-		}
-	});
-	const seededCategories = await prisma.usecaseCategory.findMany();
-	const seededSubCategories = await prisma.usecaseSubcategory.findMany();
 	const filesData = await readJsonFiles();
 	// console.log(filesData)
+	const categorySubcategoryMap = {};
+	filesData.forEach(async (file) => {
+		const { category, subCategory } = file;
+		if(categorySubcategoryMap[category]) {
+			categorySubcategoryMap[category].push(subCategory);
+		} else {
+			categorySubcategoryMap[category] = [subCategory];
+		}
+	});
+	console.log(categorySubcategoryMap);
+	Object.keys(categorySubcategoryMap).forEach(async (category) => {
+		const c = await prisma.usecaseCategory.create({
+			data: {
+				name: category,
+			},
+		});
+		const sc = await prisma.usecaseSubcategory.createMany({
+			data: categorySubcategoryMap[category].map((subCategory) => ({
+				name: subCategory,
+				usecaseCategoryId: c.id,
+			}))
+		})
+		console.log("Seeded Subcategory", sc);
+	});
+
+	const seededCategories = await prisma.usecaseCategory.findMany();
+	const seededSubCategories = await prisma.usecaseSubcategory.findMany();
+
 	const processedData = filesData.map((file) => {
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { category, subCategory, ...remainingFile } = file;
