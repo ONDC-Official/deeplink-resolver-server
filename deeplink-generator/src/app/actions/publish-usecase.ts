@@ -30,6 +30,7 @@ export async function publishUsecase({ usecase, form }: PublishUsecaseType) {
 			description: form.description,
 		},
 	});
+	console.log("ENVs", process.env.GIT_OWNER, process.env.GIT_REPO, process.env.GIT_PAT);
 	const octokit = new Octokit({
 		auth: process.env.GIT_PAT,
 	});
