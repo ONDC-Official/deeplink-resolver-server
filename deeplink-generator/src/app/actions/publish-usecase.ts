@@ -30,9 +30,9 @@ export async function publishUsecase({ usecase, form }: PublishUsecaseType) {
 			description: form.description,
 		},
 	});
-	console.log("ENVs", process.env.GIT_OWNER, process.env.GIT_REPO, process.env.GIT_PAT);
+	console.log("ENVs", process.env.OWNER_NAME_REPO, process.env.STORAGE_REPO_NAME, process.env.ACCESS_TOKEN_REPO);
 	const octokit = new Octokit({
-		auth: process.env.GIT_PAT,
+		auth: process.env.ACCESS_TOKEN_REPO,
 	});
 
 	if (form.submissionOption === UsecaseStage.PUBLISHED) {
@@ -44,16 +44,16 @@ export async function publishUsecase({ usecase, form }: PublishUsecaseType) {
 
 		try {
 			await octokit.repos.getContent({
-				owner: process.env.GIT_OWNER || "",
-				repo: process.env.GIT_REPO || "",
+				owner: process.env.OWNER_NAME_REPO || "",
+				repo: process.env.STORAGE_REPO_NAME || "",
 				path: FOLDER_PATH,
 			});
 		} catch (error: any) {
 			if (error.status === 404) {
 				// Create the folder by creating a dummy file and then deleting it
 				await octokit.repos.createOrUpdateFileContents({
-					owner: process.env.GIT_OWNER || "",
-					repo: process.env.GIT_REPO || "",
+					owner: process.env.OWNER_NAME_REPO || "",
+					repo: process.env.STORAGE_REPO_NAME || "",
 					path: `${FOLDER_PATH}/.gitkeep`,
 					message: "Create hello folder",
 					content: Buffer.from("").toString("base64"),
@@ -63,8 +63,8 @@ export async function publishUsecase({ usecase, form }: PublishUsecaseType) {
 
 		// Create the new JSON file
 		await octokit.repos.createOrUpdateFileContents({
-			owner: process.env.GIT_OWNER || "",
-			repo: process.env.GIT_REPO || "",
+			owner: process.env.OWNER_NAME_REPO || "",
+			repo: process.env.STORAGE_REPO_NAME || "",
 			path: filePath,
 			message: `Add user submission ${updatedUsecase.id}`,
 			content,
@@ -82,8 +82,8 @@ export async function publishUsecase({ usecase, form }: PublishUsecaseType) {
 	const qrCodeBuffer = Buffer.from(qrCodeBase64.split(",")[1], "base64");
 
 	await octokit.repos.createOrUpdateFileContents({
-		owner: process.env.GIT_OWNER || "",
-		repo: process.env.GIT_REPO || "",
+		owner: process.env.OWNER_NAME_REPO || "",
+		repo: process.env.STORAGE_REPO_NAME || "",
 		path: filePath,
 		message: `Update QR code for ${updatedUsecase.id}`,
 		content: qrCodeBuffer.toString("base64"),
