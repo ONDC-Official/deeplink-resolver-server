@@ -26,7 +26,7 @@ async function main() {
 	const categorySubcategoryMap = {};
 	filesData.forEach(async (file) => {
 		const { category, subCategory } = file;
-		if(categorySubcategoryMap[category]) {
+		if (categorySubcategoryMap[category]) {
 			categorySubcategoryMap[category].push(subCategory);
 		} else {
 			categorySubcategoryMap[category] = [subCategory];
@@ -43,17 +43,38 @@ async function main() {
 			data: categorySubcategoryMap[category].map((subCategory) => ({
 				name: subCategory,
 				usecaseCategoryId: c.id,
-			}))
-		})
+			})),
+		});
 		console.log("Seeded Subcategory", sc);
 	});
 
 	const seededCategories = await prisma.usecaseCategory.findMany();
 	const seededSubCategories = await prisma.usecaseSubcategory.findMany();
 
+	console.log("Seeded Categories", seededCategories);
+	console.log("Seeded SubCategories", seededSubCategories);
+
 	const processedData = filesData.map((file) => {
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { category, subCategory, ...remainingFile } = file;
+		console.log(
+			"FILTERED category",
+			file.category.toLowerCase(),
+			seededCategories.filter(
+				(category) =>
+					category.name.toLowerCase() === file.category.toLowerCase()
+			)[0].id
+		);
+	
+		console.log(
+			"FILTERED sub-category",
+			file.subCategory.toLowerCase(),
+			seededCategories.filter(
+				(category) =>
+					category.name.toLowerCase() === file.category.toLowerCase()
+			)[0].id
+		);
+
 		return {
 			...remainingFile,
 			usecaseCategoryId: seededCategories.filter(
