@@ -4,18 +4,16 @@ import { UsecaseStage } from "@prisma/client";
 import { db } from "../../../db";
 import { FormItem, inflateDeepLink } from "../utils";
 
-export type CreateDeepLinkType = {
+export type CreateUsecaseType = {
 	templateId: string;
 	value: FormItem[];
 };
 
-export async function createDeepLink({
+export async function createUsecase({
 	templateId,
 	value,
-}: CreateDeepLinkType) {
-	console.log("Generating Deep Link...", templateId, value);
+}: CreateUsecaseType) {
 	const inflatedValue = inflateDeepLink(value);
-	console.log("VALUE INFLATED", inflatedValue);
 	const deepLink = await db.usecase.create({
 		data: {
 			templateId,
@@ -23,7 +21,6 @@ export async function createDeepLink({
 			usecaseStage: UsecaseStage.DRAFT,
 		},
 	});
-	console.log("USE CASE CREATED", deepLink);
 
 	return deepLink;
 }

@@ -1,4 +1,4 @@
-export * from "./create-deep-link";
+export * from "./create-usecase";
 export * from "./create-template";
 export * from "./publish-template";
 export * from "./get-usecase-categories";

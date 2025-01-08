@@ -79,7 +79,7 @@ const PublishDeepLinkPage = async ({
 							>
 								<FieldName fieldName="Deeplink Name" />
 								<Typography variant="h5">&nbsp; &nbsp;</Typography>
-								<TextField sx={{ ml: 1 }} name="name" fullWidth />
+								<TextField sx={{ ml: 1 }} name="name" fullWidth required/>
 							</Stack>
 
 							<Stack
@@ -90,7 +90,7 @@ const PublishDeepLinkPage = async ({
 							>
 								<FieldName fieldName="Description" />
 								<Typography variant="h5">&nbsp; &nbsp;</Typography>
-								<TextField sx={{ ml: 1 }} name="description" fullWidth />
+								<TextField sx={{ ml: 1 }} name="description" fullWidth required/>
 							</Stack>
 
 							<Divider />
@@ -106,6 +106,7 @@ const PublishDeepLinkPage = async ({
 									name="submissionOption"
 									defaultValue={UsecaseStage.PUBLISHED}
 									fullWidth
+									required
 								>
 									<MenuItem value={UsecaseStage.SUBMITTED}>
 										Save Private
