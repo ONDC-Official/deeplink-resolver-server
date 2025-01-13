@@ -33,20 +33,26 @@ async function main() {
 		}
 	});
 	console.log(categorySubcategoryMap);
-	Object.keys(categorySubcategoryMap).forEach(async (category) => {
-		const c = await prisma.usecaseCategory.create({
-			data: {
-				name: category,
-			},
-		});
-		const sc = await prisma.usecaseSubcategory.createMany({
-			data: categorySubcategoryMap[category].map((subCategory) => ({
-				name: subCategory,
-				usecaseCategoryId: c.id,
-			})),
-		});
-		console.log("Seeded Subcategory", sc);
-	});
+	const createdCategories = await Promise.all(
+		Object.keys(categorySubcategoryMap).map((category) =>
+			prisma.usecaseCategory.create({
+				data: {
+					name: category,
+					UsecaseSubcategory: {
+						createMany: {
+							data: categorySubcategoryMap[category].map((name) => ({
+								name,
+							})),
+						},
+					},
+				},
+				include: {
+					UsecaseSubcategory: true,
+				}
+			})
+		)
+	);
+	console.log("Seeded Categories", createdCategories);
 
 	const seededCategories = await prisma.usecaseCategory.findMany();
 	const seededSubCategories = await prisma.usecaseSubcategory.findMany();
@@ -65,7 +71,7 @@ async function main() {
 					category.name.toLowerCase() === file.category.toLowerCase()
 			)[0].id
 		);
-	
+
 		console.log(
 			"FILTERED sub-category",
 			file.subCategory.toLowerCase(),
