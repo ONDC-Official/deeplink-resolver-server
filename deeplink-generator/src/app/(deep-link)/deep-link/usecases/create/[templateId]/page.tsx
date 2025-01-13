@@ -33,7 +33,6 @@ const GenerateDeepLinkPage = async ({
 	const templateId = (await params).templateId;
 	const template = await getTemplateById(templateId);
 	const templateValue = flattenTemplate(template!.value);
-	
 	const handleSubmit = async (form: FormData) => {
 		"use server";
 		const value = formDataToFormItemArray(form);
@@ -50,7 +49,10 @@ const GenerateDeepLinkPage = async ({
 				templateId,
 				value: value.map(({ name, value }) => {
 					try {
-						JSON.parse(value);
+						const v = JSON.parse(value);
+						if (typeof v !== "object") {
+							throw new Error("Primitive values as strings are not allowed");
+						}
 						return { name, value: `{{${name}}}` };
 					} catch {
 						return { name, value };

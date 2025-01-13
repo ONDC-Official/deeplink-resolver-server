@@ -94,6 +94,5 @@ export function inflateDeepLink(formData: FormItem[]) {
 	formData.forEach((item) => {
 			setNestedValue(result, item.name, item.value);
 	});
-
 	return result;
 }
