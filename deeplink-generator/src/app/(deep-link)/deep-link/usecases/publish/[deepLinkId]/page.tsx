@@ -67,10 +67,6 @@ const PublishDeepLinkPage = async ({
 								justifyContent="flex-start"
 							>
 								<FieldName fieldName="Creater's Name" />
-<<<<<<< HEAD
-								<Typography variant="h5">&nbsp; &nbsp;</Typography>
-=======
->>>>>>> 3aab7ac4ce9f315d48a747d3aa2ee67e3d8035a2
 								<TextField sx={{ ml: 1 }} name="creatorName" fullWidth />
 							</Stack>
 
@@ -81,10 +77,6 @@ const PublishDeepLinkPage = async ({
 								justifyContent="flex-start"
 							>
 								<FieldName fieldName="Deeplink Name" />
-<<<<<<< HEAD
-								<Typography variant="h5">&nbsp; &nbsp;</Typography>
-=======
->>>>>>> 3aab7ac4ce9f315d48a747d3aa2ee67e3d8035a2
 								<TextField sx={{ ml: 1 }} name="name" fullWidth required/>
 							</Stack>
 
@@ -95,10 +87,6 @@ const PublishDeepLinkPage = async ({
 								justifyContent="flex-start"
 							>
 								<FieldName fieldName="Description" />
-<<<<<<< HEAD
-								<Typography variant="h5">&nbsp; &nbsp;</Typography>
-=======
->>>>>>> 3aab7ac4ce9f315d48a747d3aa2ee67e3d8035a2
 								<TextField sx={{ ml: 1 }} name="description" fullWidth required/>
 							</Stack>
 
@@ -128,17 +116,11 @@ const PublishDeepLinkPage = async ({
 							<Divider />
 						</Grid>
 						<Grid size={{ xs: 12 }}>
-<<<<<<< HEAD
-							<UsecaseEditor usecase={usecase!} />
-							{/* <Typography>{JSON.stringify(usecase?.value)}</Typography> */}
-						</Grid>
-=======
 						<Grid size={{ xs: 12 }}>
 							<UsecaseEditor usecase={usecase!} />
 							{/* <Typography>{JSON.stringify(usecase?.value)}</Typography> */}
 						</Grid>
 					</Grid>
->>>>>>> 3aab7ac4ce9f315d48a747d3aa2ee67e3d8035a2
 					</Grid>
 				</Paper>
 				<Box
