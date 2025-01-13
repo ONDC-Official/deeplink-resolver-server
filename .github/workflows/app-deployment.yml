@@ -37,7 +37,7 @@ jobs:
             
             echo "STARTING build"
             sudo cp docker-compose.dev.yml docker-compose.yml
-            sudo docker compose up ondc_deep_link_app -d --build
+            sudo docker compose up ondc_deep_link_app -d --build --no-cache
             sudo docker system prune -f
 
             
