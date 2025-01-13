@@ -19,7 +19,7 @@ export type PublishUsecaseFormType = {
 const FOLDER_PATH = "usecases";
 
 export async function publishUsecase({ usecase, form }: PublishUsecaseType) {
-	const updatedUsecase = await db.usecase.update({
+	const { value, ...updatedUsecase } = await db.usecase.update({
 		where: {
 			id: usecase.id,
 		},
@@ -30,7 +30,6 @@ export async function publishUsecase({ usecase, form }: PublishUsecaseType) {
 			description: form.description,
 		},
 	});
-	console.log("ENVs", process.env.OWNER_NAME_REPO, process.env.STORAGE_REPO_NAME, process.env.ACCESS_TOKEN_REPO);
 	const octokit = new Octokit({
 		auth: process.env.ACCESS_TOKEN_REPO,
 	});
@@ -38,7 +37,13 @@ export async function publishUsecase({ usecase, form }: PublishUsecaseType) {
 	if (form.submissionOption === UsecaseStage.PUBLISHED) {
 		const fileName = `${updatedUsecase.id}.json`;
 		const filePath = `${FOLDER_PATH}/json/${fileName}`;
-		const content = Buffer.from(
+		const content = Buffer.from(JSON.stringify(value, null, 2)).toString(
+			"base64"
+		);
+
+		const metaFileName = `${updatedUsecase.id}-meta.json`;
+		const metaFilePath = `${FOLDER_PATH}/meta/${metaFileName}`;
+		const metaContent = Buffer.from(
 			JSON.stringify(updatedUsecase, null, 2)
 		).toString("base64");
 
@@ -61,7 +66,6 @@ export async function publishUsecase({ usecase, form }: PublishUsecaseType) {
 			}
 		}
 
-		// Create the new JSON file
 		await octokit.repos.createOrUpdateFileContents({
 			owner: process.env.OWNER_NAME_REPO || "",
 			repo: process.env.STORAGE_REPO_NAME || "",
@@ -69,13 +73,21 @@ export async function publishUsecase({ usecase, form }: PublishUsecaseType) {
 			message: `Add user submission ${updatedUsecase.id}`,
 			content,
 		});
+
+		await octokit.repos.createOrUpdateFileContents({
+			owner: process.env.OWNER_NAME_REPO || "",
+			repo: process.env.STORAGE_REPO_NAME || "",
+			path: metaFilePath,
+			message: `Add user submission ${updatedUsecase.id}-meta`,
+			content: metaContent,
+		});
 	}
 
 	const fileName = `${updatedUsecase.id}.png`;
 	const filePath = `${FOLDER_PATH}/qr/${fileName}`;
 
 	const qrCodeBase64 = await QRCode.toDataURL(
-		JSON.stringify(updatedUsecase.value, null, 2)
+		`beckn://github.ondc.ret10/${updatedUsecase.id}`
 	);
 
 	// Convert base64 to buffer (remove data:image/png;base64, prefix)

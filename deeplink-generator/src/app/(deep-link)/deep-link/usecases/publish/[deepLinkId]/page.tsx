@@ -67,7 +67,6 @@ const PublishDeepLinkPage = async ({
 								justifyContent="flex-start"
 							>
 								<FieldName fieldName="Creater's Name" />
-								<Typography variant="h5">&nbsp; &nbsp;</Typography>
 								<TextField sx={{ ml: 1 }} name="creatorName" fullWidth />
 							</Stack>
 
@@ -78,8 +77,7 @@ const PublishDeepLinkPage = async ({
 								justifyContent="flex-start"
 							>
 								<FieldName fieldName="Deeplink Name" />
-								<Typography variant="h5">&nbsp; &nbsp;</Typography>
-								<TextField sx={{ ml: 1 }} name="name" fullWidth />
+								<TextField sx={{ ml: 1 }} name="name" fullWidth required/>
 							</Stack>
 
 							<Stack
@@ -89,8 +87,7 @@ const PublishDeepLinkPage = async ({
 								justifyContent="flex-start"
 							>
 								<FieldName fieldName="Description" />
-								<Typography variant="h5">&nbsp; &nbsp;</Typography>
-								<TextField sx={{ ml: 1 }} name="description" fullWidth />
+								<TextField sx={{ ml: 1 }} name="description" fullWidth required/>
 							</Stack>
 
 							<Divider />
@@ -106,6 +103,7 @@ const PublishDeepLinkPage = async ({
 									name="submissionOption"
 									defaultValue={UsecaseStage.PUBLISHED}
 									fullWidth
+									required
 								>
 									<MenuItem value={UsecaseStage.SUBMITTED}>
 										Save Private
@@ -118,9 +116,11 @@ const PublishDeepLinkPage = async ({
 							<Divider />
 						</Grid>
 						<Grid size={{ xs: 12 }}>
+						<Grid size={{ xs: 12 }}>
 							<UsecaseEditor usecase={usecase!} />
 							{/* <Typography>{JSON.stringify(usecase?.value)}</Typography> */}
 						</Grid>
+					</Grid>
 					</Grid>
 				</Paper>
 				<Box

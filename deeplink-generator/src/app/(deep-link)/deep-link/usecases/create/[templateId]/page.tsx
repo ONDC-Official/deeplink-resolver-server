@@ -18,7 +18,7 @@ import {
 	inputTypeMapper,
 	NamedEnum,
 } from "@/app/utils";
-import { createDeepLink, getTemplateById } from "@/app/actions";
+import { createUsecase, getTemplateById } from "@/app/actions";
 import {
 	CustomContainedButtom,
 	CustomHeading,
@@ -33,17 +33,35 @@ const GenerateDeepLinkPage = async ({
 	const templateId = (await params).templateId;
 	const template = await getTemplateById(templateId);
 	const templateValue = flattenTemplate(template!.value);
-	console.log("TEMPLATE VALUE", templateValue);
 	const handleSubmit = async (form: FormData) => {
 		"use server";
-		if (!form) {
-			throw new Error("Form data is required");
+		const value = formDataToFormItemArray(form);
+		let valid = true;
+		value.forEach((item) => {
+			if (item.value.startsWith("{{") || item.value.endsWith("}}")) {
+				valid = false;
+				throw alert(`Invalid Input`);
+			}
+		});
+
+		if (valid) {
+			const deepLink = await createUsecase({
+				templateId,
+				value: value.map(({ name, value }) => {
+					try {
+						const v = JSON.parse(value);
+						if (typeof v !== "object") {
+							throw new Error("Primitive values as strings are not allowed");
+						}
+						return { name, value: `{{${name}}}` };
+					} catch {
+						return { name, value };
+					}
+				}),
+			});
+
+			redirect(`/deep-link/usecases/publish/${deepLink.id}`);
 		}
-		console.log("CREATING DEEP LINK");
-		const value = formDataToFormItemArray(form)
-		const deepLink = await createDeepLink({templateId, value});
-		console.log("Redirecting");
-		redirect(`/deep-link/usecases/publish/${deepLink.id}`);
 	};
 	return (
 		<>
@@ -158,6 +176,7 @@ const GenerateDeepLinkPage = async ({
 											}
 											fullWidth
 											name={key}
+											required
 										>
 											{(templateValue[key] as FillerTypeObject).enum?.map(
 												(value, index) => (
@@ -189,6 +208,7 @@ const GenerateDeepLinkPage = async ({
 											sx={{ ml: 1 }}
 											name={key}
 											fullWidth
+											required
 										/>
 									)}
 								</Stack>

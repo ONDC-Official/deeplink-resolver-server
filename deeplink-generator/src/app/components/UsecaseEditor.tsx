@@ -26,14 +26,6 @@ type UsecaseEditorProps = {
 export const UsecaseEditor = ({ usecase }: UsecaseEditorProps) => {
 	const flattenedTemplate = flattenTemplate(usecase.template.value);
 	const flattenedUsecase = flattenTemplate(usecase.value);
-	console.log("usecase", flattenedUsecase);
-	console.log("flattened template", flattenedTemplate);
-	console.log(
-		"Included",
-		Object.keys(flattenedUsecase).every((t) =>
-			Object.keys(flattenedTemplate).includes(t)
-		)
-	);
 	const [usecaseState, setUsecaseState] = useState(flattenedUsecase);
 	const [editUsecase, setEditUsecase] = useState(false);
 	const handleUsecaseEdit = async () => {
@@ -101,10 +93,17 @@ export const UsecaseEditor = ({ usecase }: UsecaseEditorProps) => {
 									"admin" &&
 								(flattenedTemplate[key] as FillerTypeObject).filler !== "pg"
 						)
+						.filter(
+							(key) =>
+								!(
+									(flattenedUsecase[key]!.toString()).startsWith("{{") &&
+									(flattenedUsecase[key]!.toString()).endsWith("}}")
+								)
+						)
 						.map((key: string) => (
 							<React.Fragment key={key}>
-								<Grid size={{ xs: 12, md: 5 }}>
-									<FieldName fieldName={key} paperSx={{width: "100%"}}/>
+								<Grid size={{ xs: 12, md: 4, lg: 6 }}>
+									<FieldName fieldName={key} paperSx={{ width: "100%" }} />
 								</Grid>
 								<Grid size={{ xs: 12, md: 6 }}>
 									{typeof flattenedTemplate[key] === "string" ? (
