@@ -60,6 +60,10 @@ async function main() {
 	console.log("Seeded Categories", seededCategories);
 	console.log("Seeded SubCategories", seededSubCategories);
 
+
+	console.log("Seeded Categories", seededCategories);
+	console.log("Seeded SubCategories", seededSubCategories);
+
 	const processedData = filesData.map((file) => {
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { category, subCategory, ...remainingFile } = file;
