@@ -96,8 +96,8 @@ export const UsecaseEditor = ({ usecase }: UsecaseEditorProps) => {
 						.filter(
 							(key) =>
 								!(
-									(flattenedUsecase[key] as string).startsWith("{{") &&
-									(flattenedUsecase[key] as string).endsWith("}}")
+									(flattenedUsecase[key]!.toString()).startsWith("{{") &&
+									(flattenedUsecase[key]!.toString()).endsWith("}}")
 								)
 						)
 						.map((key: string) => (
