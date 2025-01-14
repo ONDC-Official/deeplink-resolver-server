@@ -14,24 +14,22 @@ export const CustomHeading = ({ heading, breadcrumb }: CustomHeadingProps) => {
 	return (
 		<Paper sx={{ bgcolor: "primary.main", p: 2, width: "100%", my: 1 }}>
 			{breadcrumb && (
-				<Box sx={{ display: "flex", justifyContent: "center" }}>
-					<Breadcrumbs>
-						{breadcrumb.map((each, index) => (
-							<Link
-								href={each.link}
-								key={each.name + index}
-								style={{ textDecoration: "none" }}
-							>
-								<Typography variant="body2" fontWeight={900} color="white">
-									{each.name}
-								</Typography>
-							</Link>
-						))}
-						<Typography fontWeight={900} color="white">
-							{heading}
-						</Typography>
-					</Breadcrumbs>
-				</Box>
+				<Breadcrumbs>
+					{breadcrumb.map((each, index) => (
+						<Link
+							href={each.link}
+							key={each.name + index}
+							style={{ textDecoration: "none" }}
+						>
+							<Typography variant="subtitle2" fontWeight={700} color="white">
+								{each.name}
+							</Typography>
+						</Link>
+					))}
+					<Typography variant="subtitle1" fontWeight={800} color="white">
+						{heading}
+					</Typography>
+				</Breadcrumbs>
 			)}
 
 			<Stack justifyContent="space-between" alignItems="center" direction="row">
