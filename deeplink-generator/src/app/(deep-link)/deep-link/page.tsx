@@ -3,13 +3,16 @@ import { CustomHeading, CustomOutlinedButton } from "@/app/components";
 import { Grid2 as Grid, Paper } from "@mui/material";
 import React from "react";
 
-export const revalidate = 3600
+export const revalidate = 3600;
 
 const SelectUsecaseCategoryPage = async () => {
 	const categories = await getUsecaseCategories();
 	return (
 		<>
-			<CustomHeading heading="USECASE CATEGORIES" />
+			<CustomHeading
+				heading="USECASE CATEGORIES"
+				breadcrumb={[{ name: "Home", link: "/" }]}
+			/>
 			<Paper
 				elevation={3}
 				sx={{

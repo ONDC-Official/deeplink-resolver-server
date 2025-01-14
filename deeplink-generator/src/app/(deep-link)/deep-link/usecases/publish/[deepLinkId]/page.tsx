@@ -105,9 +105,9 @@ const PublishDeepLinkPage = async ({
 									fullWidth
 									required
 								>
-									<MenuItem value={UsecaseStage.SUBMITTED}>
+									{/* <MenuItem value={UsecaseStage.SUBMITTED}>
 										Save Private
-									</MenuItem>
+									</MenuItem> */}
 									<MenuItem value={UsecaseStage.PUBLISHED}>
 										Publish to server
 									</MenuItem>

@@ -25,8 +25,6 @@ const SelectUsecasePage = async ({
 	searchParams: Promise<{ category: string; subcategory: string }>;
 }) => {
 	const { category, subcategory } = await searchParams;
-	console.log("category", category);
-	console.log("subcategory", subcategory);
 	const templates = await getTemplateByCategoryAndSubcategory(
 		category,
 		subcategory
@@ -37,13 +35,20 @@ const SelectUsecasePage = async ({
 
 	const handleSelection = async (form: FormData) => {
 		"use server";
-		redirect(`/deep-link/usecases/create/${form.get("templateId")}`);
+		redirect(
+			`/deep-link/usecases/create/${form.get(
+				"templateId"
+			)}?category=${category}&subcategory=${subcategory}`
+		);
 	};
 
 	return (
 		<>
 			<Toolbar />
-			<CustomHeading heading="Select Template" />
+			<CustomHeading
+				heading="Select Template"
+				breadcrumb={[{ name: "Home", link: "/" }]}
+			/>
 			<Toolbar />
 			{Array.isArray(templates) && templates.length > 0 ? (
 				<Form action={handleSelection}>
