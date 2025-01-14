@@ -1,77 +1,83 @@
 {
-    "name": "SearchByCatalog",
-    "description": "Template to return an entire catalog for a particular seller",
-    "value": {
-      "context": {
-        "domain": {
-          "type": "string",
-          "filler": "user",
-          "enum": [
-            {
-              "name": "Grocery",
-              "value": "ONDC:RET10"
-            },
-            {
-              "name": "Fashion",
-              "value": "ONDC:RET12"
-            },
-            {
-              "name": "BPC",
-              "value": "ONDC:RET13"
-            }
-          ],
-          "onChange": "updateCategoryValues"
-        },
-        "action": "search",
-        "country": {
-          "filler": "pg",
-          "type": "string"
-        },
-        "city": {
-          "filler": "pg",
-          "type": "string"
-        },
-        "core_version": "1.2.0",
-        "bap_id": {
-          "filler": "pg",
-          "type": "string"
-        },
-        "bap_uri": {
-          "filler": "pg",
-          "type": "string"
-        },
-        "bpp_id": {
-          "filler": "user",
-          "type": "string"
-        },
-        "bpp_uri": {
-          "filler": "user",
-          "type": "string"
-        },
-        "transaction_id": {
-          "filler": "pg",
-          "type": "string"
-        },
-        "message_id": {
-          "filler": "pg",
-          "type": "string"
-        },
-        "timestamp": {
-          "filler": "pg",
-          "type": "string"
-        },
-        "ttl": "PT30S"
-      },
-      "message": {
-        "intent": {
-            "payment": {
-              "@ondc/org/buyer_app_finder_fee_type": "percent",
-              "@ondc/org/buyer_app_finder_fee_amount": "5"
-            }
+  "name": "SearchByCatalog",
+  "description": "Template to return an entire catalog for a particular seller",
+  "value": {
+    "context": {
+      "domain": {
+        "type": "string",
+        "filler": "user",
+        "enum": [
+          {
+            "name": "Grocery",
+            "value": "ONDC:RET10"
+          },
+          {
+            "name": "Fashion",
+            "value": "ONDC:RET12"
+          },
+          {
+            "name": "BPC",
+            "value": "ONDC:RET13"
           }
-        }
+        ],
+        "onChange": "updateCategoryValues"
       },
-      "templateStage": "SUBMITTED",
-      "category": "Retail",
-      "subCategory": "Seller-Catalog Search"
-  }
+      "action": "search",
+      "country": {
+        "filler": "pg",
+        "type": "string"
+      },
+      "city": {
+        "filler": "pg",
+        "type": "string"
+      },
+      "core_version": "1.2.0",
+      "bap_id": {
+        "filler": "pg",
+        "type": "string"
+      },
+      "bap_uri": {
+        "filler": "pg",
+        "type": "string"
+      },
+      "bpp_id": {
+        "filler": "user",
+        "type": "string"
+      },
+      "bpp_uri": {
+        "filler": "user",
+        "type": "string"
+      },
+      "transaction_id": {
+        "filler": "pg",
+        "type": "string"
+      },
+      "message_id": {
+        "filler": "pg",
+        "type": "string"
+      },
+      "timestamp": {
+        "filler": "pg",
+        "type": "string"
+      },
+      "ttl": "PT30S"
+    },
+    "message": {
+      "intent": {
+        "provider": {
+          "id": {
+            "filler": "user",
+            "type": "string"
+          }
+        },
+        "payment": {
+          "@ondc/org/buyer_app_finder_fee_type": "percent",
+          "@ondc/org/buyer_app_finder_fee_amount": "5"
+        }
+      }
+    }
+  },
+  "templateStage": "SUBMITTED",
+  "category": "Retail",
+  "subCategory": "Seller-Catalog Search"
+}
