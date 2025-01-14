@@ -16,9 +16,17 @@ export type PublishUsecaseFormType = {
 	description: string;
 };
 
-const FOLDER_PATH = "usecases";
+const FOLDER_PATH = "deep-link-payload";
 
 export async function publishUsecase({ usecase, form }: PublishUsecaseType) {
+	const oldUsecase = await db.usecase.findUnique({
+		where: {
+			id: usecase.id,
+		},
+	});
+	if (!oldUsecase) throw new Error("Usecase not found");
+	if (oldUsecase.usecaseStage !== UsecaseStage.DRAFT)
+		throw new Error("Usecase is not in draft stage");
 	const { value, ...updatedUsecase } = await db.usecase.update({
 		where: {
 			id: usecase.id,
@@ -26,6 +34,10 @@ export async function publishUsecase({ usecase, form }: PublishUsecaseType) {
 		data: {
 			usecaseStage: form.submissionOption,
 			name: form.name,
+
+			usecaseDeepLink: `beckn://${(oldUsecase!.value as any).context.domain
+				.replace(":", "_")
+				.toLowerCase()}.ondc/${oldUsecase!.id}`,
 			creatorName: form.creatorName,
 			description: form.description,
 		},

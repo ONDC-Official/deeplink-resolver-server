@@ -56,14 +56,14 @@ const DeepLinkThankYouPage = async ({
 				}}
 			>
 				<Image
-					src={`https://raw.githubusercontent.com/abhik-wil/deeplink-resolver-storage/refs/heads/master/usecases/qr/${deepLinkId}.png`}
+					src={`https://raw.githubusercontent.com/${process.env.OWNER_NAME_REPO}/${process.env.STORAGE_REPO_NAME}/refs/heads/master/deep-link-payload/qr/${deepLinkId}.png`}
 					alt="QR"
 					height={250}
 					width={250}
 				/>
 			</Box>
 
-			<DeepLinkCopyBox deepLink={`beckn://github.ondc.ret10/${deepLinkId}`} />
+			<DeepLinkCopyBox deepLink={usecase.usecaseDeepLink!} />
 			<Grid container spacing={2}>
 				<Grid size={{ xs: 12 }}>
 					<Box

@@ -33,6 +33,8 @@ const PublishDeepLinkPage = async ({
 }) => {
 	const deepLinkId = (await params).deepLinkId;
 	const usecase = await getUsecaseById(deepLinkId);
+	if (!usecase || usecase.usecaseStage !== UsecaseStage.DRAFT)
+		redirect("/deep-link");
 	const handleFormSubmit = async (formData: FormData) => {
 		"use server";
 		const form = formDataToEntry<PublishUsecaseFormType>(formData);
@@ -77,7 +79,7 @@ const PublishDeepLinkPage = async ({
 								justifyContent="flex-start"
 							>
 								<FieldName fieldName="Deeplink Name" />
-								<TextField sx={{ ml: 1 }} name="name" fullWidth required/>
+								<TextField sx={{ ml: 1 }} name="name" fullWidth required />
 							</Stack>
 
 							<Stack
@@ -87,7 +89,12 @@ const PublishDeepLinkPage = async ({
 								justifyContent="flex-start"
 							>
 								<FieldName fieldName="Description" />
-								<TextField sx={{ ml: 1 }} name="description" fullWidth required/>
+								<TextField
+									sx={{ ml: 1 }}
+									name="description"
+									fullWidth
+									required
+								/>
 							</Stack>
 
 							<Divider />
@@ -116,11 +123,11 @@ const PublishDeepLinkPage = async ({
 							<Divider />
 						</Grid>
 						<Grid size={{ xs: 12 }}>
-						<Grid size={{ xs: 12 }}>
-							<UsecaseEditor usecase={usecase!} />
-							{/* <Typography>{JSON.stringify(usecase?.value)}</Typography> */}
+							<Grid size={{ xs: 12 }}>
+								<UsecaseEditor usecase={usecase!} />
+								{/* <Typography>{JSON.stringify(usecase?.value)}</Typography> */}
+							</Grid>
 						</Grid>
-					</Grid>
 					</Grid>
 				</Paper>
 				<Box
