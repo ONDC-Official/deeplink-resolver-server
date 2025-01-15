@@ -1,5 +1,4 @@
-import { Box, Breadcrumbs, Paper, Stack, Typography } from "@mui/material";
-import { Box, Breadcrumbs, Paper, Stack, Typography } from "@mui/material";
+import { Breadcrumbs, Paper, Stack, Typography } from "@mui/material";
 import React from "react";
 import { ThemeTogglerButton } from "./ThemeTogglerButton";
 import Link from "next/link";
