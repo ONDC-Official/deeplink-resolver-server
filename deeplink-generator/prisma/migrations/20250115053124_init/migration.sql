@@ -30,6 +30,7 @@ CREATE TABLE "Usecase" (
     "description" TEXT,
     "creatorName" TEXT,
     "qrPdfLink" TEXT,
+    "usecaseDeepLink" TEXT,
     "usecaseStage" "UsecaseStage" NOT NULL,
 
     CONSTRAINT "Usecase_pkey" PRIMARY KEY ("id")
