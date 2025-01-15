@@ -1,6 +1,6 @@
 {
-	"name": "SearchByCity",
-	"description": "A template to search your product by specific city",
+	"name": "Search By City",
+	"description": "Search request to list products serviceable in a specific city",
 	"value": {
 		"context": {
 			"domain": {

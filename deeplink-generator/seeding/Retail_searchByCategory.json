@@ -1,6 +1,6 @@
 {
-	"name": "SearchByCategory",
-	"description": "This is an example template",
+	"name": "Search By Category",
+	"description": "Search request to list products of a specific category within a defined domain",
 	"value": {
 	  "context": {
 		"domain": {

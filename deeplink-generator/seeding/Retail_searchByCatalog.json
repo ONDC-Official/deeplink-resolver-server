@@ -1,6 +1,6 @@
 {
-  "name": "SearchByCatalog",
-  "description": "Template to return an entire catalog for a particular seller",
+  "name": "Search By Catalog",
+  "description": "Discover the entire catalog of a particular seller by submitting the provider respective ID",
   "value": {
     "context": {
       "domain": {
