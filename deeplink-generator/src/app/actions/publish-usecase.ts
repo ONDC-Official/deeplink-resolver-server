@@ -36,7 +36,7 @@ export async function publishUsecase({ usecase, form }: PublishUsecaseType) {
 			name: form.name,
 
 			usecaseDeepLink: `beckn://${(oldUsecase!.value as any).context.domain
-				.replace(":", "_")
+				.split(":")[1]
 				.toLowerCase()}.ondc/${oldUsecase!.id}`,
 			creatorName: form.creatorName,
 			description: form.description,
