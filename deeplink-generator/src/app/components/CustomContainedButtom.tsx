@@ -1,9 +1,25 @@
-import { ButtonBase, ButtonBaseProps, Paper, Typography } from "@mui/material";
+import {
+	ButtonBase,
+	ButtonProps,
+	Paper,
+	PaperProps,
+	Typography,
+} from "@mui/material";
 import React from "react";
 
-export const CustomContainedButtom: React.FC<ButtonBaseProps> = (props) => {
+type CustomContainedButtomProps = {
+	children: React.ReactNode;
+	buttonBaseProps?: ButtonProps;
+	paperProps?: PaperProps;
+};
+
+export const CustomContainedButtom = ({
+	children,
+	buttonBaseProps,
+	paperProps,
+}: CustomContainedButtomProps) => {
 	return (
-		<ButtonBase {...props}>
+		<ButtonBase {...buttonBaseProps}>
 			<Paper
 				elevation={2}
 				sx={{
@@ -17,8 +33,9 @@ export const CustomContainedButtom: React.FC<ButtonBaseProps> = (props) => {
 						elevation: 4,
 					},
 				}}
+				{...paperProps}
 			>
-				<Typography variant="h4">{props.children}</Typography>
+				<Typography variant="h4">{children}</Typography>
 			</Paper>
 		</ButtonBase>
 	);

@@ -37,7 +37,7 @@ export const UsecaseEditor = ({ usecase }: UsecaseEditorProps) => {
 				} as FormItem)
 		);
 		const inflate = inflateDeepLink(edit);
-		const res = await fetch(`/usecase/${usecase.id}`, {
+		const res = await fetch(`/api/usecase/${usecase.id}`, {
 			method: "PATCH",
 			body: JSON.stringify(inflate),
 		});
