@@ -27,10 +27,13 @@ import {
 import { redirect } from "next/navigation";
 const GenerateDeepLinkPage = async ({
 	params,
+	searchParams,
 }: {
 	params: Promise<{ templateId: string }>;
+	searchParams: Promise<{ category: string; subcategory: string }>;
 }) => {
 	const templateId = (await params).templateId;
+	const { category } = await searchParams;
 	const template = await getTemplateById(templateId);
 	const templateValue = flattenTemplate(template!.value);
 	const handleSubmit = async (form: FormData) => {
@@ -60,12 +63,22 @@ const GenerateDeepLinkPage = async ({
 				}),
 			});
 
-			redirect(`/deep-link/usecases/publish/${deepLink.id}`);
+			redirect(`/deep-link/usecases/publish/${deepLink.id}?templateId=${templateId}`);
 		}
 	};
 	return (
 		<>
-			<CustomHeading heading="DEEP LINK GENERATOR" />
+			<CustomHeading
+				heading="DEEP LINK GENERATOR"
+				breadcrumb={[
+					{ name: "Home", link: "/" },
+					{ name: "Usecases Categories", link: `/deep-link` },
+					{
+						name: "Usecases Subcategories",
+						link: `/deep-link/filter/${category}`,
+					},
+				]}
+			/>
 			<Paper
 				elevation={4}
 				sx={{

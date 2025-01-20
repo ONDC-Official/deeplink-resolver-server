@@ -22,7 +22,7 @@ jobs:
             
             sleep 10
 
-            sudo docker build -t migrations-runner -f Dockerfile.migration .
+            sudo docker build --no-cache -t migrations-runner -f Dockerfile.migration .
             sudo docker run --rm \
               --network deeplink-generator_default \
               migrations-runner
