@@ -24,7 +24,13 @@ const SelectUsecaseSubcategory = async ({
 	const subcategories = await getUsecaseSubcategories(categoryId);
 	return (
 		<>
-			<CustomHeading heading="USECASE SUBCATEGORIES" />
+			<CustomHeading
+				heading="USECASE SUBCATEGORIES"
+				breadcrumb={[
+					{ name: "Home", link: "/" },
+					{ name: "Usecase Categories", link: `/deep-link` },
+				]}
+			/>
 
 			<Paper
 				elevation={3}

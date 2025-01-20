@@ -57,6 +57,7 @@ model Usecase {
   description  String?
   creatorName  String?
   qrPdfLink    String?
+  usecaseDeepLink String?
   usecaseStage UsecaseStage
 }
 

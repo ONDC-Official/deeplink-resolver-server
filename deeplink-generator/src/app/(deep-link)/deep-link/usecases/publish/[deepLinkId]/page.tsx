@@ -33,6 +33,36 @@ const PublishDeepLinkPage = async ({
 }) => {
 	const deepLinkId = (await params).deepLinkId;
 	const usecase = await getUsecaseById(deepLinkId);
+	if (!usecase || usecase.usecaseStage !== UsecaseStage.DRAFT) {
+		return (
+			<>
+				<CustomHeading heading="PUBLISH DEEP LINK" />
+				<Paper
+					elevation={4}
+					sx={{
+						p: 2,
+						borderColor: "primary.light",
+						borderWidth: 2,
+						borderStyle: "solid",
+						borderRadius: 2,
+						my: 4,
+						width: "100%",
+						display: "flex",
+						justifyContent: "center",
+						alignItems: "center",
+						flexDirection: "column",
+					}}
+				>
+					<Typography variant="h5">
+						Deep Link either does not exist or is not in draft stage@
+					</Typography>
+					<CustomContainedButtom buttonBaseProps={{ href: "/" }}>
+						Go Home
+					</CustomContainedButtom>
+				</Paper>
+			</>
+		);
+	}
 	const handleFormSubmit = async (formData: FormData) => {
 		"use server";
 		const form = formDataToEntry<PublishUsecaseFormType>(formData);
@@ -77,7 +107,7 @@ const PublishDeepLinkPage = async ({
 								justifyContent="flex-start"
 							>
 								<FieldName fieldName="Deeplink Name" />
-								<TextField sx={{ ml: 1 }} name="name" fullWidth required/>
+								<TextField sx={{ ml: 1 }} name="name" fullWidth required />
 							</Stack>
 
 							<Stack
@@ -87,7 +117,12 @@ const PublishDeepLinkPage = async ({
 								justifyContent="flex-start"
 							>
 								<FieldName fieldName="Description" />
-								<TextField sx={{ ml: 1 }} name="description" fullWidth required/>
+								<TextField
+									sx={{ ml: 1 }}
+									name="description"
+									fullWidth
+									required
+								/>
 							</Stack>
 
 							<Divider />
@@ -105,9 +140,9 @@ const PublishDeepLinkPage = async ({
 									fullWidth
 									required
 								>
-									<MenuItem value={UsecaseStage.SUBMITTED}>
+									{/* <MenuItem value={UsecaseStage.SUBMITTED}>
 										Save Private
-									</MenuItem>
+									</MenuItem> */}
 									<MenuItem value={UsecaseStage.PUBLISHED}>
 										Publish to server
 									</MenuItem>
@@ -116,11 +151,11 @@ const PublishDeepLinkPage = async ({
 							<Divider />
 						</Grid>
 						<Grid size={{ xs: 12 }}>
-						<Grid size={{ xs: 12 }}>
-							<UsecaseEditor usecase={usecase!} />
-							{/* <Typography>{JSON.stringify(usecase?.value)}</Typography> */}
+							<Grid size={{ xs: 12 }}>
+								<UsecaseEditor usecase={usecase!} />
+								{/* <Typography>{JSON.stringify(usecase?.value)}</Typography> */}
+							</Grid>
 						</Grid>
-					</Grid>
 					</Grid>
 				</Paper>
 				<Box
@@ -131,7 +166,9 @@ const PublishDeepLinkPage = async ({
 						my: 2,
 					}}
 				>
-					<CustomContainedButtom type="submit">Submit</CustomContainedButtom>
+					<CustomContainedButtom buttonBaseProps={{ type: "submit" }}>
+						Submit
+					</CustomContainedButtom>
 				</Box>
 			</Form>
 		</>
