@@ -33,8 +33,36 @@ const PublishDeepLinkPage = async ({
 }) => {
 	const deepLinkId = (await params).deepLinkId;
 	const usecase = await getUsecaseById(deepLinkId);
-	if (!usecase || usecase.usecaseStage !== UsecaseStage.DRAFT)
-		redirect("/deep-link");
+	if (!usecase || usecase.usecaseStage !== UsecaseStage.DRAFT) {
+		return (
+			<>
+				<CustomHeading heading="PUBLISH DEEP LINK" />
+				<Paper
+					elevation={4}
+					sx={{
+						p: 2,
+						borderColor: "primary.light",
+						borderWidth: 2,
+						borderStyle: "solid",
+						borderRadius: 2,
+						my: 4,
+						width: "100%",
+						display: "flex",
+						justifyContent: "center",
+						alignItems: "center",
+						flexDirection: "column",
+					}}
+				>
+					<Typography variant="h5">
+						Deep Link either does not exist or is not in draft stage@
+					</Typography>
+					<CustomContainedButtom buttonBaseProps={{ href: "/" }}>
+						Go Home
+					</CustomContainedButtom>
+				</Paper>
+			</>
+		);
+	}
 	const handleFormSubmit = async (formData: FormData) => {
 		"use server";
 		const form = formDataToEntry<PublishUsecaseFormType>(formData);
@@ -138,7 +166,9 @@ const PublishDeepLinkPage = async ({
 						my: 2,
 					}}
 				>
-					<CustomContainedButtom type="submit">Submit</CustomContainedButtom>
+					<CustomContainedButtom buttonBaseProps={{ type: "submit" }}>
+						Submit
+					</CustomContainedButtom>
 				</Box>
 			</Form>
 		</>
