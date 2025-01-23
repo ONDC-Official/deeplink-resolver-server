@@ -13,6 +13,7 @@ import Form from "next/form";
 
 import {
 	formDataToFormItemArray,
+	fromFormtoJSONSchema,
 	fromJSONSchemaToComponentable,
 	JsonSchemaObject,
 } from "@/app/utils";
@@ -41,7 +42,10 @@ const GenerateDeepLinkPage = async ({
 		const value = formDataToFormItemArray(form);
 		let valid = true;
 		value.forEach((item) => {
-			if (item.value.startsWith("{{") || item.value.endsWith("}}")) {
+			if (
+				JSON.parse(item.value) &&
+				templateValue[item.name].filler === "user"
+			) {
 				valid = false;
 				throw alert(`Invalid Input`);
 			}
@@ -50,17 +54,11 @@ const GenerateDeepLinkPage = async ({
 		if (valid) {
 			const deepLink = await createUsecase({
 				templateId,
-				value: value.map(({ name, value }) => {
-					try {
-						const v = JSON.parse(value);
-						if (typeof v !== "object") {
-							throw new Error("Primitive values as strings are not allowed");
-						}
-						return { name, value: `{{${name}}}` };
-					} catch {
-						return { name, value };
-					}
-				}),
+				value: fromFormtoJSONSchema(
+					value,
+					template!.value as JsonSchemaObject,
+					"user"
+				),
 			});
 
 			redirect(

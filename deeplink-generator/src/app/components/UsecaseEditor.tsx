@@ -6,15 +6,16 @@ import {
 	Divider,
 	Grid2 as Grid,
 	IconButton,
+	MenuItem,
 	Paper,
+	Select,
 	TextField,
 	Typography,
 } from "@mui/material";
 import React, { useState } from "react";
 import {
-	FillerTypeObject,
-	flattenTemplate,
 	FormItem,
+	fromJSONSchemaToComponentable,
 	inflateDeepLink,
 } from "../utils";
 import { FieldName } from "./FieldName";
@@ -24,8 +25,10 @@ type UsecaseEditorProps = {
 	usecase: any;
 };
 export const UsecaseEditor = ({ usecase }: UsecaseEditorProps) => {
-	const flattenedTemplate = flattenTemplate(usecase.template.value);
-	const flattenedUsecase = flattenTemplate(usecase.value);
+	const flattenedTemplate = fromJSONSchemaToComponentable(
+		usecase.template.value
+	);
+	const flattenedUsecase = fromJSONSchemaToComponentable(usecase.value);
 	const [usecaseState, setUsecaseState] = useState(flattenedUsecase);
 	const [editUsecase, setEditUsecase] = useState(false);
 	const handleUsecaseEdit = async () => {
@@ -49,6 +52,7 @@ export const UsecaseEditor = ({ usecase }: UsecaseEditorProps) => {
 	return (
 		<>
 			<Divider />
+			<Typography variant="h5" textAlign="left">Value :</Typography>
 			<Box
 				sx={{
 					display: "flex",
@@ -57,7 +61,6 @@ export const UsecaseEditor = ({ usecase }: UsecaseEditorProps) => {
 					my: 1,
 				}}
 			>
-				<Typography variant="h5">Value :</Typography>
 				{!editUsecase ? (
 					<IconButton onClick={() => setEditUsecase(true)} color="info">
 						<EditTwoTone />
@@ -85,51 +88,65 @@ export const UsecaseEditor = ({ usecase }: UsecaseEditorProps) => {
 					width: "100%",
 				}}
 			>
-				<Grid container spacing={1}>
-					{Object.keys(flattenedTemplate)
-						.filter(
-							(key) =>
-								(flattenedTemplate[key] as FillerTypeObject).filler !==
-									"admin" &&
-								(flattenedTemplate[key] as FillerTypeObject).filler !== "pg"
-						)
-						.filter(
-							(key) =>
-								!(
-									(flattenedUsecase[key]!.toString()).startsWith("{{") &&
-									(flattenedUsecase[key]!.toString()).endsWith("}}")
-								)
-						)
-						.map((key: string) => (
-							<React.Fragment key={key}>
-								<Grid size={{ xs: 12, md: 4, lg: 6 }}>
+				{Object.keys(usecaseState)
+					.filter((key) => usecaseState[key].filler === "user")
+					.map((key: string) => (
+						<React.Fragment key={key}>
+							<Grid container spacing={1}>
+								<Grid
+									size={{ xs: 12, md: 6 }}
+									alignItems="center"
+									justifyContent="flex-start"
+									display="flex"
+								>
 									<FieldName fieldName={key} paperSx={{ width: "100%" }} />
+									<Typography mx={1}>:</Typography>
 								</Grid>
-								<Grid size={{ xs: 12, md: 6 }}>
-									{typeof flattenedTemplate[key] === "string" ? (
-										<TextField
-											disabled
-											defaultValue={flattenedTemplate[key]}
+								<Grid size={{ xs: 12, md: 5 }}>
+									{usecaseState[key]?.type === "select" ? (
+										<Select
+											defaultValue={usecaseState[key].options![0].value}
 											fullWidth
-										/>
+											name={key}
+											required={usecaseState[key].required}
+										>
+											{usecaseState[key].options?.map((value, index) => (
+												<MenuItem
+													key={key + "option" + index}
+													value={value.value.toString()}
+												>
+													<Typography variant="body2">{value.label}</Typography>
+												</MenuItem>
+											))}
+										</Select>
 									) : (
 										<TextField
+											defaultValue={usecaseState[key].defaultValue}
+											type={usecaseState[key].type}
 											name={key}
-											disabled={!editUsecase}
-											defaultValue={usecaseState[key]}
-											onChange={(e) =>
-												setUsecaseState((prev) => ({
-													...prev,
-													[key]: e.target.value,
-												}))
-											}
 											fullWidth
+											required={usecaseState[key].required}
 										/>
 									)}
 								</Grid>
-							</React.Fragment>
-						))}
-				</Grid>
+							</Grid>
+							<Divider sx={{ my: 2 }} />
+						</React.Fragment>
+					))}
+				{Object.keys(usecaseState)
+					.filter((key) => usecaseState[key].filler !== "user")
+					.map((key: string, index) => (
+						<input
+							type="hidden"
+							key={key + index}
+							defaultValue={
+								typeof usecaseState[key] === "object"
+									? JSON.stringify(usecaseState[key])
+									: String(usecaseState[key])
+							}
+							name={key}
+						/>
+					))}
 			</Paper>
 		</>
 	);
