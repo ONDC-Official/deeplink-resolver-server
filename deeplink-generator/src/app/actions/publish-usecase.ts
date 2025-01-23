@@ -35,7 +35,7 @@ export async function publishUsecase({ usecase, form }: PublishUsecaseType) {
 			usecaseStage: form.submissionOption,
 			name: form.name,
 
-			usecaseDeepLink: `beckn://${(oldUsecase!.value as any).context.domain
+			usecaseDeepLink: `beckn://${process.env.RESOLVER_HOST}.${(oldUsecase!.value as any).context.domain
 				.split(":")[1]
 				.toLowerCase()}.ondc/${oldUsecase!.id}`,
 			creatorName: form.creatorName,
