@@ -37,34 +37,25 @@ const GenerateDeepLinkPage = async ({
 	const templateValue = fromJSONSchemaToComponentable(
 		template!.value as JsonSchemaObject
 	);
+	console.log("FLATTENED TEMPLATE VALUE :::", templateValue);
 	const handleSubmit = async (form: FormData) => {
 		"use server";
 		const value = formDataToFormItemArray(form);
-		let valid = true;
-		value.forEach((item) => {
-			if (
-				JSON.parse(item.value) &&
-				templateValue[item.name].filler === "user"
-			) {
-				valid = false;
-				throw alert(`Invalid Input`);
-			}
+
+		const inflatedValue = fromFormtoJSONSchema(
+			value,
+			template!.value as JsonSchemaObject,
+			"user"
+		);
+		console.log("INFLATED FORM SCHEMA :::", inflatedValue);
+		const deepLink = await createUsecase({
+			templateId,
+			value: inflatedValue,
 		});
 
-		if (valid) {
-			const deepLink = await createUsecase({
-				templateId,
-				value: fromFormtoJSONSchema(
-					value,
-					template!.value as JsonSchemaObject,
-					"user"
-				),
-			});
-
-			redirect(
-				`/deep-link/usecases/publish/${deepLink.id}?templateId=${templateId}`
-			);
-		}
+		redirect(
+			`/deep-link/usecases/publish/${deepLink.id}?templateId=${templateId}`
+		);
 	};
 	return (
 		<>

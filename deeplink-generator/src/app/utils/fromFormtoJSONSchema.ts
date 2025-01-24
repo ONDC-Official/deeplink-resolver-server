@@ -6,6 +6,7 @@ export function fromFormtoJSONSchema(
 	originalSchema: JsonSchemaObject,
 	filler: FillerType
 ): JsonSchemaObject {
+	if (!filler) throw new Error("filler is required");
 	const result: JsonSchemaObject = JSON.parse(JSON.stringify(originalSchema));
 
 	function updateSchema(schema: JsonSchemaObject, path: string) {

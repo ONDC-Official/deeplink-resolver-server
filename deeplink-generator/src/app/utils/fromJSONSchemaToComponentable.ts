@@ -38,9 +38,6 @@ export function fromJSONSchemaToComponentable(obj: JsonSchemaObject) {
 		prefix = "",
 		required?: Array<string>
 	) {
-		console.log("\nPrefix ::", prefix);
-		console.log("Flattening:", obj);
-		console.log("Required:", required);
 
 		if (obj.type === "object") {
 			if (obj.properties) {
