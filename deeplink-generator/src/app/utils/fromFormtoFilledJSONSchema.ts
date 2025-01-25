@@ -1,7 +1,7 @@
 import { FillerType, JsonSchemaObject } from "./fromJSONSchemaToComponentable";
 import { FormItem } from "./inflate";
 
-export function fromFormtoJSONSchema(
+export function fromFormtoFilledJSONSchema(
 	formValues: FormItem[],
 	originalSchema: JsonSchemaObject,
 	filler: FillerType

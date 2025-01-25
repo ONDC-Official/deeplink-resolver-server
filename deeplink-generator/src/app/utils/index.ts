@@ -4,4 +4,5 @@ export * from "./formatToNormalCasing";
 export * from "./inputTypeMapper";
 export * from "./getTextPlacement";
 export * from "./formDataToEntry";
-export * from "./fromFormtoJSONSchema";
+export * from "./fromFormtoFilledJSONSchema";
+export * from "./fromComponentableToJSONSchema";

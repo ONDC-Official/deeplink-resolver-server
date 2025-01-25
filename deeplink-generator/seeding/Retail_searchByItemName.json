@@ -1,138 +1,139 @@
 {
+	"id": "9429d7f5-d1e0-4c",
 	"name": "Search By Item Name",
 	"description": "Search request to return a specific product according to its name and domain",
 	"value": {
-			"$schema": "https://json-schema.org/draft/2019-09/schema",
-			"type": "object",
-			"properties": {
-					"context": {
-							"type": "object",
-							"properties": {
-									"domain": {
-											"type": "string",
-											"$comment": "filler:user",
-											"oneOf": [
-													{
-															"const": "ONDC:RET10",
-															"title": "Grocery"
-													},
-													{
-															"const": "ONDC:RET12",
-															"title": "Fashion"
-													},
-													{
-															"const": "ONDC:RET13",
-															"title": "BPC"
-													}
-											]
-									},
-									"action": {
-											"type": "string",
-											"const": "search",
-											"$comment": "filler:system"
-									},
-									"country": {
-											"type": "string",
-											"$comment": "filler:consumer"
-									},
-									"city": {
-											"type": "string",
-											"$comment": "filler:consumer"
-									},
-									"core_version": {
-											"type": "string",
-											"const": "1.2.0",
-											"$comment": "filler:system"
-									},
-									"bap_id": {
-											"type": "string",
-											"$comment": "filler:consumer"
-									},
-									"bap_uri": {
-											"type": "string",
-											"$comment": "filler:consumer"
-									},
-									"transaction_id": {
-											"type": "string",
-											"$comment": "filler:consumer"
-									},
-									"message_id": {
-											"type": "string",
-											"$comment": "filler:consumer"
-									},
-									"timestamp": {
-											"type": "string",
-											"$comment": "filler:consumer"
-									},
-									"ttl": {
-											"type": "string",
-											"const": "PT30S",
-											"$comment": "filler:system"
-									}
+		"$schema": "https://json-schema.org/draft/2019-09/schema",
+		"type": "object",
+		"properties": {
+			"context": {
+				"type": "object",
+				"properties": {
+					"domain": {
+						"type": "string",
+						"$comment": "filler:user",
+						"oneOf": [
+							{
+								"const": "ONDC:RET10",
+								"title": "Grocery"
 							},
-							"required": [
-									"domain",
-									"action",
-									"country",
-									"city",
-									"core_version",
-									"bap_id",
-									"bap_uri",
-									"transaction_id",
-									"message_id",
-									"timestamp",
-									"ttl"
-							]
+							{
+								"const": "ONDC:RET12",
+								"title": "Fashion"
+							},
+							{
+								"const": "ONDC:RET13",
+								"title": "BPC"
+							}
+						]
 					},
-					"message": {
-							"type": "object",
-							"properties": {
-									"intent": {
-											"type": "object",
-											"properties": {
-													"item": {
-															"type": "object",
-															"properties": {
-																	"descriptor": {
-																			"type": "object",
-																			"properties": {
-																					"name": {
-																							"type": "string",
-																							"$comment": "filler:user"
-																					}
-																			},
-																			"required": ["name"]
-																	}
-															},
-															"required": ["descriptor"]
-													},
-													"payment": {
-															"type": "object",
-															"properties": {
-																	"@ondc/org/buyer_app_finder_fee_type": {
-																			"type": "string",
-																			"const": "percent",
-																			"$comment": "filler:system"
-																	},
-																	"@ondc/org/buyer_app_finder_fee_amount": {
-																			"type": "string",
-																			"const": "5",
-																			"$comment": "filler:system"
-																	}
-															},
-															"required": [
-																	"@ondc/org/buyer_app_finder_fee_type",
-																	"@ondc/org/buyer_app_finder_fee_amount"
-															]
-													}
-											},
-											"required": ["item", "payment"]
-									}
-							},
-							"required": ["intent"]
+					"action": {
+						"type": "string",
+						"const": "search",
+						"$comment": "filler:system"
+					},
+					"country": {
+						"type": "string",
+						"$comment": "filler:consumer"
+					},
+					"city": {
+						"type": "string",
+						"$comment": "filler:consumer"
+					},
+					"core_version": {
+						"type": "string",
+						"const": "1.2.0",
+						"$comment": "filler:system"
+					},
+					"bap_id": {
+						"type": "string",
+						"$comment": "filler:consumer"
+					},
+					"bap_uri": {
+						"type": "string",
+						"$comment": "filler:consumer"
+					},
+					"transaction_id": {
+						"type": "string",
+						"$comment": "filler:consumer"
+					},
+					"message_id": {
+						"type": "string",
+						"$comment": "filler:consumer"
+					},
+					"timestamp": {
+						"type": "string",
+						"$comment": "filler:consumer"
+					},
+					"ttl": {
+						"type": "string",
+						"const": "PT30S",
+						"$comment": "filler:system"
 					}
+				},
+				"required": [
+					"domain",
+					"action",
+					"country",
+					"city",
+					"core_version",
+					"bap_id",
+					"bap_uri",
+					"transaction_id",
+					"message_id",
+					"timestamp",
+					"ttl"
+				]
 			},
-			"required": ["context", "message"]
+			"message": {
+				"type": "object",
+				"properties": {
+					"intent": {
+						"type": "object",
+						"properties": {
+							"item": {
+								"type": "object",
+								"properties": {
+									"descriptor": {
+										"type": "object",
+										"properties": {
+											"name": {
+												"type": "string",
+												"$comment": "filler:user"
+											}
+										},
+										"required": ["name"]
+									}
+								},
+								"required": ["descriptor"]
+							},
+							"payment": {
+								"type": "object",
+								"properties": {
+									"@ondc/org/buyer_app_finder_fee_type": {
+										"type": "string",
+										"const": "percent",
+										"$comment": "filler:system"
+									},
+									"@ondc/org/buyer_app_finder_fee_amount": {
+										"type": "string",
+										"const": "5",
+										"$comment": "filler:system"
+									}
+								},
+								"required": [
+									"@ondc/org/buyer_app_finder_fee_type",
+									"@ondc/org/buyer_app_finder_fee_amount"
+								]
+							}
+						},
+						"required": ["item", "payment"]
+					}
+				},
+				"required": ["intent"]
+			}
+		},
+		"required": ["context", "message"]
 	},
 	"templateStage": "SUBMITTED",
 	"category": "Retail",

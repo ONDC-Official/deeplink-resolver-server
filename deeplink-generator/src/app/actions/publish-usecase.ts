@@ -27,6 +27,15 @@ export async function publishUsecase({ usecase, form }: PublishUsecaseType) {
 	if (!oldUsecase) throw new Error("Usecase not found");
 	if (oldUsecase.usecaseStage !== UsecaseStage.DRAFT)
 		throw new Error("Usecase is not in draft stage");
+
+	const domain = (
+		oldUsecase!.value as any
+	).properties.context.properties.domain.const
+		.split(":")[1]
+		.toLowerCase();
+	const deepLink = `beckn://${process.env.RESOLVER_HOST}.${domain}.ondc/${
+		oldUsecase!.id
+	}`;
 	const { value, ...updatedUsecase } = await db.usecase.update({
 		where: {
 			id: usecase.id,
@@ -35,9 +44,7 @@ export async function publishUsecase({ usecase, form }: PublishUsecaseType) {
 			usecaseStage: form.submissionOption,
 			name: form.name,
 
-			usecaseDeepLink: `beckn://${process.env.RESOLVER_HOST}.${(oldUsecase!.value as any).context.domain
-				.split(":")[1]
-				.toLowerCase()}.ondc/${oldUsecase!.id}`,
+			usecaseDeepLink: deepLink,
 			creatorName: form.creatorName,
 			description: form.description,
 		},
@@ -99,7 +106,7 @@ export async function publishUsecase({ usecase, form }: PublishUsecaseType) {
 	const filePath = `${FOLDER_PATH}/qr/${fileName}`;
 
 	const qrCodeBase64 = await QRCode.toDataURL(
-		`beckn://github.ondc.ret10/${updatedUsecase.id}`
+		deepLink
 	);
 
 	// Convert base64 to buffer (remove data:image/png;base64, prefix)

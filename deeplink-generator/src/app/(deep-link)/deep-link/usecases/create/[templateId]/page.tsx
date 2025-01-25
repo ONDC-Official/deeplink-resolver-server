@@ -13,7 +13,7 @@ import Form from "next/form";
 
 import {
 	formDataToFormItemArray,
-	fromFormtoJSONSchema,
+	fromFormtoFilledJSONSchema,
 	fromJSONSchemaToComponentable,
 	JsonSchemaObject,
 } from "@/app/utils";
@@ -37,17 +37,16 @@ const GenerateDeepLinkPage = async ({
 	const templateValue = fromJSONSchemaToComponentable(
 		template!.value as JsonSchemaObject
 	);
-	console.log("FLATTENED TEMPLATE VALUE :::", templateValue);
+
 	const handleSubmit = async (form: FormData) => {
 		"use server";
 		const value = formDataToFormItemArray(form);
 
-		const inflatedValue = fromFormtoJSONSchema(
+		const inflatedValue = fromFormtoFilledJSONSchema(
 			value,
 			template!.value as JsonSchemaObject,
 			"user"
 		);
-		console.log("INFLATED FORM SCHEMA :::", inflatedValue);
 		const deepLink = await createUsecase({
 			templateId,
 			value: inflatedValue,

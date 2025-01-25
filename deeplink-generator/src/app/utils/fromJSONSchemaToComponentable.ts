@@ -22,10 +22,11 @@ export type JsonSchemaObject = {
 };
 
 export type FillerType = "system" | "admin" | "user" | "consumer";
+export type SupportedFieldTypes = "string" | "number" | "select" | "checkbox";
 export type ComponentableSchema = {
 	disabled: boolean;
 	required: boolean;
-	type: "string" | "number" | "select" | "checkbox";
+	type: SupportedFieldTypes;
 	options?: Array<{ value: string | number | boolean; label: string }>;
 	defaultValue?: string | number | boolean;
 	filler?: FillerType;
@@ -38,7 +39,6 @@ export function fromJSONSchemaToComponentable(obj: JsonSchemaObject) {
 		prefix = "",
 		required?: Array<string>
 	) {
-
 		if (obj.type === "object") {
 			if (obj.properties) {
 				for (const [key, value] of Object.entries(obj.properties)) {

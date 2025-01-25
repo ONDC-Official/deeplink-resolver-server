@@ -15,8 +15,8 @@ import {
 import React, { useState } from "react";
 import {
 	FormItem,
+	fromFormtoFilledJSONSchema,
 	fromJSONSchemaToComponentable,
-	inflateDeepLink,
 } from "../utils";
 import { FieldName } from "./FieldName";
 
@@ -25,11 +25,10 @@ type UsecaseEditorProps = {
 	usecase: any;
 };
 export const UsecaseEditor = ({ usecase }: UsecaseEditorProps) => {
-	const flattenedTemplate = fromJSONSchemaToComponentable(
-		usecase.template.value
+	const [flattenedUsecase, setFlattenedUsecase] = useState(
+		fromJSONSchemaToComponentable(usecase.value)
 	);
-	const flattenedUsecase = fromJSONSchemaToComponentable(usecase.value);
-	console.log("Flattened Usecase ::::", flattenedUsecase);
+
 	const [usecaseState, setUsecaseState] = useState(
 		Object.keys(flattenedUsecase)
 			.map((key) => ({
@@ -48,13 +47,24 @@ export const UsecaseEditor = ({ usecase }: UsecaseEditorProps) => {
 					value: usecaseState[each],
 				} as FormItem)
 		);
-		const inflate = inflateDeepLink(edit);
+		const inflate = fromFormtoFilledJSONSchema(edit, usecase.template.value, "user");
 		const res = await fetch(`/api/usecase/${usecase.id}`, {
 			method: "PATCH",
 			body: JSON.stringify(inflate),
 		});
 		if (res.status !== 200)
 			console.log("Error While updating usecase", res.body);
+		const newFlattenedUsecase = fromJSONSchemaToComponentable(inflate);
+		setFlattenedUsecase(newFlattenedUsecase);
+		setUsecaseState(
+			Object.keys(newFlattenedUsecase)
+				.map((key) => ({
+					[key]: newFlattenedUsecase[key].defaultValue,
+				}))
+				.reduce((acc, curr) => ({ ...acc, ...curr }), {}) as {
+				[key: string]: string | number | boolean;
+			}
+		);
 		setEditUsecase(false);
 	};
 
