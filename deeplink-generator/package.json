@@ -1,5 +1,6 @@
 {
-	"name": "deeplink-generator",
+	"name": "@ondc/deeplink-generator",
+	"author": "Abhik Banerjee",
 	"type": "module",
 	"version": "0.1.0",
 	"private": true,
@@ -24,6 +25,7 @@
 		"@mui/material": "^6.1.9",
 		"@octokit/rest": "^21.0.2",
 		"@prisma/client": "^6.1.0",
+		"json-edit-react": "^1.21.1",
 		"jspdf": "^2.5.2",
 		"next": "15.0.3",
 		"pdf-lib": "^1.17.1",

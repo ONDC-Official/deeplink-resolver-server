@@ -13,5 +13,6 @@ export * from "./DeepLinkBackgroundContainer";
 export * from "./TemplateBackgroundContainer";
 export * from "./FieldName";
 export * from "./DownloadQr";
-export * from "./UsecaseEditor"
+export * from "./UsecaseEditor";
 export * from "./JsonViewer";
+export * from "./TemplateViewer";
