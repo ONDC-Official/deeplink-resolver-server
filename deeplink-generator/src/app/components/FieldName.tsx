@@ -22,10 +22,22 @@ export const FieldName = ({
 				borderStyle: "solid",
 				borderRadius: 2,
 				width: "30%",
-				...paperSx
+
+				...paperSx,
 			}}
 		>
-			<Typography color="primary.light" sx={{ ...typographySx }} noWrap title={fieldName}>
+			<Typography
+				color="primary.light"
+				sx={{
+					":hover": {
+						scale: 1.02,
+						transition: "all 0.3s ease-in-out",
+					},
+					...typographySx,
+				}}
+				noWrap
+				title={fieldName}
+			>
 				{fieldName}
 			</Typography>
 		</Paper>

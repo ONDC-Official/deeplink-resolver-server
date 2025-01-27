@@ -1,11 +1,15 @@
-
 import React from "react";
 import template from "@/app/assets/template.json";
 import { redirect } from "next/navigation";
 import { getTemplateById } from "@/app/actions";
 import { CustomHeading, TemplateCreator } from "@/app/components";
+import { Template } from "@prisma/client";
 
-const ExtendTemplatePage = async ({params}: {params: Promise<{templateId: string}>}) => {
+const ExtendTemplatePage = async ({
+	params,
+}: {
+	params: Promise<{ templateId: string }>;
+}) => {
 	const templateId = (await params).templateId;
 	if (!templateId) redirect("/");
 	let templateToUse;
@@ -15,12 +19,10 @@ const ExtendTemplatePage = async ({params}: {params: Promise<{templateId: string
 		templateToUse = await getTemplateById(templateId);
 	}
 
-
-
 	return (
 		<>
-		<CustomHeading heading="Customize Template" />
-			<TemplateCreator template={templateToUse}/>
+			<CustomHeading heading="Customize Template" />
+			<TemplateCreator template={templateToUse! as Template} />
 		</>
 	);
 };
