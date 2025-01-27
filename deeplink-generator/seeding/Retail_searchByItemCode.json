@@ -1,6 +1,6 @@
 {
-    "name": "SearchByItemCode Template",
-    "description": "This template searches by item code",
+    "name": "Search By Item Code",
+    "description": "Search request to return a specific product according to its defined code",
     "value": {
       "context": {
         "domain": {

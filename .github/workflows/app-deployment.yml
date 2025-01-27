@@ -20,7 +20,7 @@ jobs:
           script: |
             echo "STARTING Deployment"
             [ -d "deeplink-resolver-server" ] && sudo rm -rf "deeplink-resolver-server"
-            sudo git clone https://github.com/abhik-wil/deeplink-resolver-server.git
+            sudo git clone https://github.com/ONDC-Official/deeplink-resolver-server.git
             cd deeplink-resolver-server/deeplink-generator
 
 
