@@ -2,27 +2,17 @@
 
 import { TemplateStage } from "@prisma/client";
 import { db } from "../../../db";
-import { FormItem, inflateTemplate } from "../utils";
-import { redirect } from "next/navigation";
+import { JsonSchemaObject } from "../utils";
 
-export async function createTemplate(templateId: string, formData: FormData) {
-	console.log("Template ID", templateId);
-	console.log("Form Data", formData);
-	const inflatedTemplate = inflateTemplate(
-		Array.from(formData.entries()).map(
-			([key, value]) =>
-				({
-					name: key,
-					value: value,
-				} as FormItem)
-		)
-	);
-	console.log("Inflated Template", inflatedTemplate);
+export async function createTemplate(templateSchema: JsonSchemaObject) {
 	const createdTemplate = await db.template.create({
 		data: {
 			templateStage: TemplateStage.DRAFT,
-			value: inflatedTemplate,
+			value: {
+				$schema: "https://json-schema.org/draft/2019-09/schema",
+				properties: templateSchema,
+			},
 		},
 	});
-	redirect(`/template/3/${createdTemplate.id}`);
+	return createdTemplate;
 }

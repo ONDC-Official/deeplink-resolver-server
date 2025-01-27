@@ -6,16 +6,17 @@ import {
 	Divider,
 	Grid2 as Grid,
 	IconButton,
+	MenuItem,
 	Paper,
+	Select,
 	TextField,
 	Typography,
 } from "@mui/material";
 import React, { useState } from "react";
 import {
-	FillerTypeObject,
-	flattenTemplate,
 	FormItem,
-	inflateDeepLink,
+	fromFormtoFilledJSONSchema,
+	fromJSONSchemaToComponentable,
 } from "../utils";
 import { FieldName } from "./FieldName";
 
@@ -24,9 +25,19 @@ type UsecaseEditorProps = {
 	usecase: any;
 };
 export const UsecaseEditor = ({ usecase }: UsecaseEditorProps) => {
-	const flattenedTemplate = flattenTemplate(usecase.template.value);
-	const flattenedUsecase = flattenTemplate(usecase.value);
-	const [usecaseState, setUsecaseState] = useState(flattenedUsecase);
+	const [flattenedUsecase, setFlattenedUsecase] = useState(
+		fromJSONSchemaToComponentable(usecase.value)
+	);
+
+	const [usecaseState, setUsecaseState] = useState(
+		Object.keys(flattenedUsecase)
+			.map((key) => ({
+				[key]: flattenedUsecase[key].defaultValue,
+			}))
+			.reduce((acc, curr) => ({ ...acc, ...curr }), {}) as {
+			[key: string]: string | number | boolean;
+		}
+	);
 	const [editUsecase, setEditUsecase] = useState(false);
 	const handleUsecaseEdit = async () => {
 		const edit = Object.keys(usecaseState).map(
@@ -36,19 +47,33 @@ export const UsecaseEditor = ({ usecase }: UsecaseEditorProps) => {
 					value: usecaseState[each],
 				} as FormItem)
 		);
-		const inflate = inflateDeepLink(edit);
+		const inflate = fromFormtoFilledJSONSchema(edit, usecase.template.value, "user");
 		const res = await fetch(`/api/usecase/${usecase.id}`, {
 			method: "PATCH",
 			body: JSON.stringify(inflate),
 		});
 		if (res.status !== 200)
 			console.log("Error While updating usecase", res.body);
+		const newFlattenedUsecase = fromJSONSchemaToComponentable(inflate);
+		setFlattenedUsecase(newFlattenedUsecase);
+		setUsecaseState(
+			Object.keys(newFlattenedUsecase)
+				.map((key) => ({
+					[key]: newFlattenedUsecase[key].defaultValue,
+				}))
+				.reduce((acc, curr) => ({ ...acc, ...curr }), {}) as {
+				[key: string]: string | number | boolean;
+			}
+		);
 		setEditUsecase(false);
 	};
 
 	return (
 		<>
 			<Divider />
+			<Typography variant="h5" textAlign="left">
+				Value :
+			</Typography>
 			<Box
 				sx={{
 					display: "flex",
@@ -57,7 +82,6 @@ export const UsecaseEditor = ({ usecase }: UsecaseEditorProps) => {
 					my: 1,
 				}}
 			>
-				<Typography variant="h5">Value :</Typography>
 				{!editUsecase ? (
 					<IconButton onClick={() => setEditUsecase(true)} color="info">
 						<EditTwoTone />
@@ -85,51 +109,73 @@ export const UsecaseEditor = ({ usecase }: UsecaseEditorProps) => {
 					width: "100%",
 				}}
 			>
-				<Grid container spacing={1}>
-					{Object.keys(flattenedTemplate)
-						.filter(
-							(key) =>
-								(flattenedTemplate[key] as FillerTypeObject).filler !==
-									"admin" &&
-								(flattenedTemplate[key] as FillerTypeObject).filler !== "pg"
-						)
-						.filter(
-							(key) =>
-								!(
-									(flattenedUsecase[key]!.toString()).startsWith("{{") &&
-									(flattenedUsecase[key]!.toString()).endsWith("}}")
-								)
-						)
-						.map((key: string) => (
-							<React.Fragment key={key}>
-								<Grid size={{ xs: 12, md: 4, lg: 6 }}>
+				{Object.keys(usecaseState)
+					.filter(
+						(key) =>
+							flattenedUsecase[key].filler !== "admin" &&
+							flattenedUsecase[key].filler !== "consumer"
+					)
+					.map((key: string) => (
+						<React.Fragment key={key}>
+							<Grid container spacing={1}>
+								<Grid
+									size={{ xs: 12, md: 6 }}
+									alignItems="center"
+									justifyContent="flex-start"
+									display="flex"
+								>
 									<FieldName fieldName={key} paperSx={{ width: "100%" }} />
+									<Typography mx={1}>:</Typography>
 								</Grid>
-								<Grid size={{ xs: 12, md: 6 }}>
-									{typeof flattenedTemplate[key] === "string" ? (
-										<TextField
-											disabled
-											defaultValue={flattenedTemplate[key]}
+								<Grid size={{ xs: 12, md: 5 }}>
+									{flattenedUsecase[key]?.type === "select" ? (
+										<Select
+											defaultValue={flattenedUsecase[key].options![0].value}
 											fullWidth
-										/>
-									) : (
-										<TextField
 											name={key}
-											disabled={!editUsecase}
-											defaultValue={usecaseState[key]}
+											required={flattenedUsecase[key].required}
+											disabled={
+												!editUsecase || flattenedUsecase[key].filler !== "user"
+											}
 											onChange={(e) =>
 												setUsecaseState((prev) => ({
 													...prev,
 													[key]: e.target.value,
 												}))
 											}
+										>
+											{flattenedUsecase[key].options?.map((value, index) => (
+												<MenuItem
+													key={key + "option" + index}
+													value={value.value.toString()}
+												>
+													<Typography variant="body2">{value.label}</Typography>
+												</MenuItem>
+											))}
+										</Select>
+									) : (
+										<TextField
+											defaultValue={flattenedUsecase[key].defaultValue}
+											type={flattenedUsecase[key].type}
+											name={key}
 											fullWidth
+											required={flattenedUsecase[key].required}
+											disabled={
+												!editUsecase || flattenedUsecase[key].filler !== "user"
+											}
+											onChange={(e) =>
+												setUsecaseState((prev) => ({
+													...prev,
+													[key]: e.target.value,
+												}))
+											}
 										/>
 									)}
 								</Grid>
-							</React.Fragment>
-						))}
-				</Grid>
+							</Grid>
+							<Divider sx={{ my: 2 }} />
+						</React.Fragment>
+					))}
 			</Paper>
 		</>
 	);
