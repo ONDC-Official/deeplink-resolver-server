@@ -115,24 +115,40 @@
 											"$comment": "filler:user",
 											"oneOf": [
 												{
-													"enum": [
-														"Fruits and Vegetables",
-														"Masala & Seasoning",
-														"Oil & Ghee"
-													],
-													"title": "Grocery"
+													"const": "Grocery - Fruits and Vegetables",
+													"title": "Grocery - Fruits and Vegetables"
 												},
 												{
-													"enum": ["Shirts", "T Shirts", "Sweatshirts"],
-													"title": "Fashion"
+													"const": "Grocery - Masala & Seasoning",
+													"title": "Grocery - Masala & Seasoning"
 												},
 												{
-													"enum": [
-														"Fragrance",
-														"Bath Soaps and Gels",
-														"Hair Care"
-													],
-													"title": "BPC"
+													"const": "Grocery - Oil & Ghee",
+													"title": "Grocery - Oil & Ghee"
+												},
+												{
+													"const": "Fashion - Shirts",
+													"title": "Fashion - Shirts"
+												},
+												{
+													"const": "Fashion - T Shirts",
+													"title": "Fashion - T Shirts"
+												},
+												{
+													"const": "Fashion - Sweatshirts",
+													"title": "Fashion - Sweatshirts"
+												},
+												{
+													"const": "BPC - Fragrance",
+													"title": "BPC - Fragrance"
+												},
+												{
+													"const": "BPC - Bath Soaps and Gels",
+													"title": "BPC - Bath Soaps and Gels"
+												},
+												{
+													"const": "BPC - Hair Care",
+													"title": "BPC - Hair Care"
 												}
 											]
 										}
